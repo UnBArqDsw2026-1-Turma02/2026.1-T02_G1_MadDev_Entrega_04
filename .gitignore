@@ -1,0 +1,10 @@
+# Claude Code — não versionar instruções locais do assistente
+CLAUDE.md
+
+# Godot 4 — arquivos gerados pelo editor
+jogo/.godot/
+jogo/export_presets.cfg
+
+# OS
+.DS_Store
+Thumbs.db

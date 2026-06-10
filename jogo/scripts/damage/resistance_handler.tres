@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ResistanceHandler" format=3 uid="uid://ckhk1hrrrs8ot"]
+
+[ext_resource type="Script" uid="uid://bqd452g647tbv" path="res://scripts/damage/resistance_handler.gd" id="1_i0xo0"]
+[ext_resource type="Resource" uid="uid://c8cqfsx3fcws3" path="res://scripts/damage/health_handler.tres" id="1_me417"]
+
+[resource]
+script = ExtResource("1_i0xo0")
+next = ExtResource("1_me417")
+metadata/_custom_type_script = "uid://bqd452g647tbv"

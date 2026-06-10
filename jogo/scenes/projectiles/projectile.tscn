@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bp5dr5evpsjdx"]
+
+[ext_resource type="Script" uid="uid://o3cq4dvg2icw" path="res://scripts/projectiles/projectile_base.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bh6qb37fqp2vc" path="res://icon.svg" id="2_wndne"]
+
+[sub_resource type="CircleShape2D" id="Shape_projectile"]
+radius = 4.0
+
+[node name="Projectile" type="Area2D" unique_id=1616949144]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2113159332]
+scale = Vector2(0.046875, 0.046875)
+texture = ExtResource("2_wndne")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1738788655]
+shape = SubResource("Shape_projectile")
+
+[connection signal="body_entered" from="." to="." method="apply_damage_to"]

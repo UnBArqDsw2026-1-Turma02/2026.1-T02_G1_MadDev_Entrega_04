@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="StudentProfile" format=3 uid="uid://bcalouro00001"]
+
+[ext_resource type="Script" uid="uid://bsprofilescript" path="res://scripts/resources/student_profile.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+profile_name = "Calouro"
+base_hp_modifier = 1.0
+base_speed_modifier = 1.1
+base_damage_modifier = 0.9
+starting_weapon = ""

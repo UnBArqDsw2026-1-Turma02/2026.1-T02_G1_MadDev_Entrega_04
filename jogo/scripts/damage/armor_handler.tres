@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ArmorHandler" format=3 uid="uid://uly6i7c31ll8"]
+
+[ext_resource type="Resource" uid="uid://ckhk1hrrrs8ot" path="res://scripts/damage/resistance_handler.tres" id="1_0knxc"]
+[ext_resource type="Script" uid="uid://i2piwpswtiyq" path="res://scripts/damage/armor_handler.gd" id="1_4lpbs"]
+
+[resource]
+script = ExtResource("1_4lpbs")
+next = ExtResource("1_0knxc")
+metadata/_custom_type_script = "uid://i2piwpswtiyq"

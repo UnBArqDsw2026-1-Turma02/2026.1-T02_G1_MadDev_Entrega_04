@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bdoorscene0001"]
+
+[ext_resource type="Script" uid="uid://bdoorscript001" path="res://scripts/world/door.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="Shape_door"]
+size = Vector2(8.0, 16.0)
+
+[sub_resource type="RectangleShape2D" id="Shape_passage"]
+size = Vector2(20.0, 28.0)
+
+[node name="Door" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Shape_door")
+
+[node name="PassageArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PassageArea"]
+shape = SubResource("Shape_passage")
+
+[connection signal="body_entered" from="PassageArea" to="." method="_on_passage_body_entered"]

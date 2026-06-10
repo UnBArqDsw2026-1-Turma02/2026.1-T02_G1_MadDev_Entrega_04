@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgameover00001"]
+
+[ext_resource type="Script" path="res://scripts/ui/game_over.gd" id="1_go"]
+[ext_resource type="Theme" uid="uid://bmaintheme001" path="res://art/themes/main_theme.tres" id="2_theme"]
+
+[node name="GameOver" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_go")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.8)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBox" type="VBoxContainer" parent="Center"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Center/VBox"]
+layout_mode = 2
+text = "FIM"
+horizontal_alignment = 1
+
+[node name="Voltar" type="Button" parent="Center/VBox"]
+layout_mode = 2
+text = "Voltar ao Menu"
+
+[connection signal="pressed" from="Center/VBox/Voltar" to="." method="_on_voltar_pressed"]
