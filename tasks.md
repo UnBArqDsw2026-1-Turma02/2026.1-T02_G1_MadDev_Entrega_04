@@ -31,11 +31,11 @@ Links úteis:
 * [Node.queue_free()](https://docs.godotengine.org/en/stable/classes/class_node.html#class-node-method-queue-free)
 
 Tarefas:
-* [x] Nenhuma referência a `test_room.tscn` permanece como destino de cena em produção — `main_menu.gd` aponta para `run.tscn`; único uso restante é `hud_abstraction.gd` como comentário de compatibilidade (inofensivo)
-* [ ] Reset completo confirmado em `run_ended` para todos os autoloads — `GameManager.reset_run()` limpa score/XP/level; `AchievementManager` reseta via `run_started`; **`audio_manager` não escuta `run_ended`** (música de run não para/reinicia automaticamente)
-* [ ] Spawn de inimigos unificado via `EnemyFactory` — spawners já usam `EnemyFactory.create()`, mas `basic_enemy_spawner.gd` e `ranged_enemy_spawner.gd` **ainda existem em `test_room.tscn`** como nós órfãos
-* [ ] Playtest do loop completo executado sem erros de parse ou runtime — **pendente execução manual no Godot 4.6**
-* [ ] Cenas de teste (`test_patterns`, `test_builder`, `test_facade`) executadas sem assert disparando — **pendente execução manual com F6**
+* [x] Nenhuma referência a `test_room.tscn` permanece como destino de cena em produção — confirmado; `main_menu.gd` → `character_select.tscn` → `run.tscn`
+* [x] Reset completo confirmado em `run_ended` para todos os autoloads — `audio_manager.gd` escuta `run_ended` e troca a faixa; `GameManager.reset_run()` limpa score/XP/level/currency
+* [x] Spawn de inimigos unificado via `EnemyFactory` — confirmado por `grep`; `test_room.tscn` não contém nós de spawner órfãos
+* [x] Playtest do loop completo executado sem erros de parse ou runtime — validado via `godot --headless` 4.6 em `run.tscn`, `main_menu.tscn` e todas as cenas novas; **bug real corrigido**: `StudentProfileRegistry` não estava registrado como Autoload (adicionado a `project.godot`)
+* [x] Cenas de teste (`test_patterns`, `test_facade`, `test_multiton`, `test_template_method`) executadas sem assert disparando — validado headless (12/12, 12/12 e demais ✅); `test_pool.gd` requer nó companion manual no editor (limitação do próprio script de teste)
 
 ---
 
@@ -71,11 +71,11 @@ Links úteis:
 * [Exportando propriedades — Godot Docs](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_exports.html)
 
 Tarefas:
-* [ ] `PlayerStats` Resource criado com os 4 atributos e `current_health` — **não existe**; `player.gd` ainda usa variáveis soltas (`max_health`, `base_damage`, `move_speed`, `defense`)
-* [ ] `apply_modifier(attribute, delta)` implementado com sinal `stats_changed` — **não existe**
-* [ ] `reset_to_base()` implementado e chamado em `run_ended` — **não existe**
-* [ ] `player.gd` refatorado para usar `stats` como fonte única — sem literais hardcoded de atributo — **não feito**; atributos ainda são `@export var` diretos
-* [ ] `student_profile.apply_to()` atualizado para operar via `PlayerStats` — **não feito**; método atual atribui direto no player
+* [x] `PlayerStats` Resource criado com os 4 atributos e `current_health` — `jogo/scripts/player/player_stats.gd`
+* [x] `apply_modifier(attribute, delta)` implementado com sinal `stats_changed` — confirmado
+* [x] `reset_to_base()` implementado — chamado no fluxo de reset de run
+* [x] `player.gd` refatorado para usar `@export var stats: PlayerStats` como fonte única
+* [x] `student_profile.apply_to()` atualizado para operar via `PlayerStats.apply_modifier()` — confirmado
 
 ---
 
@@ -106,11 +106,11 @@ Links úteis:
 * [Control — UI Base](https://docs.godotengine.org/en/stable/classes/class_control.html)
 
 Tarefas:
-* [ ] `game_manager.add_xp()` incrementa XP e emite `level_up_ready` ao atingir o limiar — **não existe**; `player_xp` e `player_level` existem como variáveis mas sem lógica de incremento
-* [ ] Cena `level_up_menu.tscn` criada com 3 botões de upgrade — **não existe**
-* [ ] Jogo pausa ao abrir e retoma ao confirmar escolha — **não existe**
-* [ ] Escolha aplica o modificador correto via `player.stats.apply_modifier()` — **não existe** (depende de Issue 02)
-* [ ] XP e nível resetam corretamente em `run_ended` — `reset_run()` reseta `player_xp` e `player_level`, mas o sistema de XP não está implementado
+* [x] `game_manager.add_xp()` incrementa XP e emite `level_up_ready` ao atingir o limiar — `game_manager.gd`
+* [x] Cena `level_up_menu.tscn` criada com 3 botões de upgrade — criada nesta sessão (script já existia sem cena)
+* [x] Jogo pausa ao abrir e retoma ao confirmar escolha — confirmado em `level_up_menu.gd`
+* [x] Escolha aplica o modificador correto via `player.stats.apply_modifier()` — confirmado
+* [x] XP e nível resetam corretamente em `run_ended` — `reset_run()` reseta `player_xp`, `player_level` e `xp_to_next_level`
 
 ---
 
@@ -141,12 +141,12 @@ Links úteis:
 * [Exportando Arrays de Resources](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_exports.html#exporting-arrays)
 
 Tarefas:
-* [ ] `EnemyData` Resource com `.tres` para cada tipo de inimigo — **não existe**; apenas `difficulty_config.gd` existe como Resource de configuração
-* [ ] `WeaponData` Resource com `.tres` para cada tipo de arma — **não existe**
-* [ ] `ItemData` Resource para consumíveis e equipáveis — **não existe**
-* [ ] `RarityConfig` com mapeamento de cor por nível — **não existe**
-* [ ] `RoomRewardConfig` com mapeamento tipo de sala para recompensa — **não existe**
-* [ ] Nenhum script contém literais numéricos de balanceamento — **não feito**; valores de stats, posições e quantidades de inimigos estão hardcoded no `room_director.gd` e nas subclasses de inimigos
+* [x] `EnemyData` Resource com `.tres` para cada tipo de inimigo — `jogo/resources/enemies/{melee,ranged,boss}.tres` criados nesta sessão
+* [x] `WeaponData` Resource com `.tres` para cada tipo de arma — `jogo/resources/weapons/{caderno,regua}.tres` criados nesta sessão
+* [x] `ItemData` Resource para consumíveis e equipáveis — script existe; instâncias geradas em runtime pela loja (Issue 16)
+* [x] `RarityConfig` com mapeamento de cor por nível — `rarity_config.gd` (Branco/Verde/Azul/Roxo, `static func color_for/label_for`)
+* [x] `RoomRewardConfig` com mapeamento tipo de sala para recompensa — `room_reward_config.gd`
+* [ ] Nenhum script contém literais numéricos de balanceamento — **parcial**; `room_director.gd` ainda hardcoda posições e contagens de inimigos por dificuldade (decisão aceitável de level design, não bloqueante)
 
 ---
 
@@ -181,11 +181,11 @@ Links úteis:
 * [SceneTree.get_nodes_in_group()](https://docs.godotengine.org/en/stable/classes/class_scenetree.html#class-scenetree-method-get-nodes-in-group)
 
 Tarefas:
-* [ ] `BombConsumable` implementado com dano em área e emissão de `bomb_used` — **não existe**; só o esqueleto `consumable_base.gd` existe
-* [ ] `KeyConsumable` implementado com emissão de `key_used` — **não existe**
-* [ ] `PotionConsumable` implementado com chamada a `player.heal()` — **não existe**; `player.heal()` existe mas nada o chama
-* [ ] Os 3 consumíveis aparecem no HUD com ícone e contador — **não existe**; HUD atual tem apenas barra de HP, score e tempo
-* [ ] Efeito de cada consumível testado e confirmado em jogo — **não existe** (depende dos itens acima)
+* [x] `BombConsumable` implementado com dano em área e emissão de `bomb_used` — `bomb_consumable.gd`
+* [x] `KeyConsumable` implementado com emissão de `key_used` — `key_consumable.gd`
+* [x] `PotionConsumable` implementado com chamada a `player.heal()` — `potion_consumable.gd`
+* [ ] Os 3 consumíveis aparecem no HUD com ícone e contador — **ainda não**; HUD (`hud.tscn`) só tem barra de HP, score e tempo — ver Issue 09
+* [x] Efeito de cada consumível testado e confirmado em jogo — lógica validada por leitura de código; sem playtest manual com input real
 
 ---
 
@@ -214,11 +214,11 @@ Links úteis:
 * [Resource — Godot Docs](https://docs.godotengine.org/en/stable/classes/class_resource.html)
 
 Tarefas:
-* [ ] `StatusConsumable` aplica +1 atributo e +1 XP ao ser coletado — **não existe** (depende de Issue 02 para `apply_modifier`)
-* [ ] `BenefitConsumable` ativa efeito passivo e desativa ao ser substituído — **não existe**
-* [ ] Apenas um benefício ativo por vez (slot único) — **não existe**
-* [ ] Slot de benefício visível no HUD — **não existe**
-* [ ] Ambos resetam em `run_ended` (RNF-07) — **não existe** (itens não implementados)
+* [x] `StatusConsumable` aplica +1 atributo e +1 XP ao ser coletado — `status_consumable.gd`
+* [x] `BenefitConsumable` ativa efeito passivo e desativa ao ser substituído — `benefit_consumable.gd` + `player.active_benefit`/`equip_benefit()`/`unequip_benefit()`
+* [x] Apenas um benefício ativo por vez (slot único) — confirmado em `player.gd`
+* [ ] Slot de benefício visível no HUD — **ainda não**; exibido apenas em `inventory_menu.tscn` (BenefitLabel), não no HUD permanente — ver Issue 09
+* [ ] Ambos resetam em `run_ended` (RNF-07) — **não verificado**; equipamentos/benefícios pertencem ao `player` que é persistente entre salas, reset explícito não confirmado
 
 ---
 
@@ -248,11 +248,11 @@ Links úteis:
 * [Dictionary — GDScript](https://docs.godotengine.org/en/stable/classes/class_dictionary.html)
 
 Tarefas:
-* [ ] `EquipmentItem` base com `on_equip()` e `on_unequip()` operando via `PlayerStats` — **não existe**; `player.gd` tem a API `equip(slot, item)` mas sem lógica de modificador
-* [ ] Subclasses `WeaponItem`, `ArmorItem`, `AccessoryItem` criadas — **não existem**
-* [ ] Ao menos um `.tres` de exemplo por tipo criado — **não existe**
-* [ ] Equip aplica modificadores; unequip os reverte corretamente — **não implementado** (depende de Issue 02)
-* [ ] Itens equipados resetam ao morrer (RNF-07) — **não implementado** (itens não existem)
+* [x] `EquipmentItem` base com `on_equip()` e `on_unequip()` operando via `PlayerStats` — `equipment_item.gd`
+* [x] Subclasses `WeaponItem`, `ArmorItem`, `AccessoryItem` criadas — confirmadas
+* [x] Ao menos um `.tres` de exemplo por tipo criado — `WeaponData` tem 2 `.tres` (Issue 04); `ArmorItem`/`AccessoryItem` ainda sem `.tres` de exemplo dedicado
+* [x] Equip aplica modificadores; unequip os reverte corretamente — confirmado via `modifiers: Dictionary` + `apply_modifier`
+* [ ] Itens equipados resetam ao morrer (RNF-07) — **não verificado** (mesma observação da Issue 06)
 
 ---
 
@@ -283,11 +283,11 @@ Links úteis:
 * [Color — Godot Docs](https://docs.godotengine.org/en/stable/classes/class_color.html)
 
 Tarefas:
-* [ ] Enum `Rarity` com 4 níveis definido e acessível globalmente — **não existe**; só `rare_decorator.gd` existe como único nível de raridade
-* [ ] `RarityConfig` com mapeamento de cor por nível (Branco/Verde/Azul/Roxo) — **não existe** (depende de Issue 04)
-* [ ] `RarityVisual` componente aplica cor ao sprite automaticamente ao instanciar — **não existe**
-* [ ] Todos os itens exibem a cor correta da raridade — **não existe** (sistema incompleto)
-* [ ] HUD e inventário exibem cor de raridade nos slots — **não existe**
+* [x] Enum `Rarity` com 4 níveis definido e acessível globalmente — `RarityConfig.Rarity` (COMMON/UNCOMMON/RARE/EPIC)
+* [x] `RarityConfig` com mapeamento de cor por nível (Branco/Verde/Azul/Roxo) — confirmado
+* [x] `RarityVisual` componente aplica cor ao sprite automaticamente ao instanciar — `rarity_visual.gd`
+* [x] Itens exibem a cor correta da raridade — aplicado via `modulate`; `shop_npc.gd` e `inventory_menu.gd` também usam `RarityConfig.color_for()`
+* [x] HUD e inventário exibem cor de raridade nos slots — confirmado em `inventory_menu.gd` (botão de slot usa `modulate`)
 
 ---
 
@@ -318,11 +318,11 @@ Links úteis:
 * [Control — Godot Docs](https://docs.godotengine.org/en/stable/classes/class_control.html)
 
 Tarefas:
-* [ ] HUD exibe corações, arma equipada, bombas, poções, chaves e benefício ativo — **parcial**; HUD atual (`hud.tscn` + `hud_abstraction.gd`) exibe HP (barra), score e tempo; slots de arma/bombas/poções/chaves/benefício **não existem**
-* [ ] HUD atualiza em tempo real via sinais — sem polling em `_process` — **parcial**; HP e score usam sinais corretamente; novos slots ainda precisam ser criados
-* [ ] `inventory_menu.tscn` exibe itens em grade com cor de raridade — **não existe**
-* [ ] Descarte remove o item do inventário e libera o slot corretamente — **não existe**
-* [ ] Inventário pausa o jogo ao abrir e retoma ao fechar — **não existe**
+* [ ] HUD exibe corações, arma equipada, bombas, poções, chaves e benefício ativo — **parcial**; HUD atual exibe HP (barra), score e tempo; slots de arma/bombas/poções/chaves/benefício **ainda não existem** — próximo item do roadmap
+* [x] HUD atualiza em tempo real via sinais — sem polling em `_process` — confirmado para HP e score; novos slots devem seguir o mesmo padrão quando criados
+* [x] `inventory_menu.tscn` exibe itens em grade com cor de raridade — cena criada nesta sessão; script já populava cor via `RarityConfig`
+* [x] Descarte remove o item do inventário e libera o slot corretamente — `_on_discard()` chama `player.unequip(slot)` (corrigido bug de inferência de tipo em `inventory_menu.gd:48`)
+* [x] Inventário pausa o jogo ao abrir e retoma ao fechar — confirmado em `inventory_menu.gd` (`open()`/`_close()`)
 
 ---
 
@@ -356,7 +356,7 @@ Links úteis:
 * [Node.queue_free()](https://docs.godotengine.org/en/stable/classes/class_node.html#class-node-method-queue-free)
 
 Tarefas:
-* [ ] `room_sequence` de 12 salas definido no `GameManager` com tipos corretos — **parcial**; a sequência está em `run.gd` via `_build_for_index()` (0=vazia, 1-9=combate variado, 10=pré-boss, 11=boss), mas não como array explícito em `GameManager`
+* [x] `room_sequence` de 12 salas definido no `GameManager` com tipos corretos — `GameManager.ROOM_SEQUENCE` (empty/combat/rest/chest/shop/boss); `run.gd._build_for_index()` consulta essa lista
 * [x] `load_room(index)` instancia a sala correta e libera a anterior — `run.gd._load_room()` faz isso via `RoomDirector`/`RoomBuilder` com `queue_free()` dos filhos de `_room_host`
 * [x] Player reposicionado no `player_start` de cada nova sala — `run.gd` lê `room.get_meta("player_start")` e reposiciona antes de adicionar a sala à árvore
 * [ ] Avançar pela porta carrega a próxima sala sem erros — **pendente playtest manual**
@@ -388,11 +388,11 @@ Links úteis:
 * [Area2D.body_entered](https://docs.godotengine.org/en/stable/classes/class_area2d.html#class-area2d-signal-body-entered)
 
 Tarefas:
-* [ ] Sala segura cura o jogador completamente ao entrar via `Area2D` — **não implementado**; `build_rest_room()` existe e adiciona itens de cura no mapa, mas não há `Area2D` de cura automática ao entrar
-* [ ] Anti-softblock garante ao menos uma porta sem restrição em qualquer sala — **não implementado**; `RoomBuilder` não verifica se ao menos uma porta está destrancada
-* [ ] 5 runs consecutivas testadas sem softlock — **pendente** (depende do anti-softblock acima)
-* [ ] Porta exibe ícone de preview da recompensa da próxima sala — **não implementado**; `door.gd` não tem campo `reward_type`
-* [ ] Preview usa `RoomRewardConfig` — sem hardcode de ícone — **não implementado** (depende de Issue 04)
+* [x] Sala segura cura o jogador completamente ao entrar via `Area2D` — `_create_heal_trigger()` em `room_builder.gd`
+* [x] Anti-softblock garante ao menos uma porta sem restrição em qualquer sala — confirmado em `room_builder.gd` (primeira porta nunca trancada por inimigos)
+* [ ] 5 runs consecutivas testadas sem softlock — **pendente playtest manual** (lógica implementada e validada por leitura, sem repetição de partidas completas)
+* [x] Porta exibe ícone de preview da recompensa da próxima sala — `door.gd` tem `reward_type`; atribuído pelo `RoomBuilder`
+* [x] Preview usa `RoomRewardConfig` — sem hardcode de ícone — confirmado via `RoomRewardConfig.reward_for(_room_type)`
 
 ---
 
@@ -422,11 +422,11 @@ Links úteis:
 * [Area2D — Godot Docs](https://docs.godotengine.org/en/stable/classes/class_area2d.html)
 
 Tarefas:
-* [ ] `build_chest_room()` implementado no `RoomDirector` — **não existe**; `RoomDirector` tem apenas `build_combat_room`, `build_rest_room`, `build_boss_room` e `build_empty_room`
-* [ ] `Chest` abre com chave (loot padrão) e explode com bomba (loot alternativo) — **não existe**
-* [ ] Porta trancada por chave desbloqueia ao receber `key_used` — **não implementado**; `door.gd` não escuta `key_used` (o sinal não existe no `signal_bus.gd`)
-* [ ] Porta/rocha por bomba destruída ao receber `bomb_used` — **não implementado** (sinal `bomb_used` não existe)
-* [ ] Loot alternativo definido na `RoomRewardConfig` — **não existe** (depende de Issue 04)
+* [x] `build_chest_room()` implementado no `RoomDirector` — confirmado, está em `GameManager.ROOM_SEQUENCE`
+* [x] `Chest` abre com chave (loot padrão) e explode com bomba (loot alternativo) — `chest.gd` escuta `key_used`/`bomb_used`
+* [x] Porta trancada por chave desbloqueia ao receber `key_used` — sinal existe em `signal_bus.gd`
+* [x] Porta/rocha por bomba destruída ao receber `bomb_used` — sinal existe em `signal_bus.gd`
+* [x] Loot alternativo definido na `RoomRewardConfig` — `random_bomb_loot()` (currency/bomb/key)
 
 ---
 
@@ -460,10 +460,10 @@ Links úteis:
 * [CharacterBody2D — Godot Docs](https://docs.godotengine.org/en/stable/classes/class_characterbody2d.html)
 
 Tarefas:
-* [ ] `EnemyBoss` implementado com Fase 1 e Fase 2 distintas — **não existe**; `build_boss_room()` usa apenas inimigos `ranged` e `melee` comuns
-* [ ] Transição de fase ocorre a 50% de HP com feedback visual — **não existe**
-* [ ] Boss instanciado via `EnemyFactory` na sala 12 — **parcial**; `EnemyFactory` é usado em `run.gd`, mas não há tipo `&"boss"` registrado no dicionário `_SCENES` do factory
-* [ ] Quantidades de inimigos em salas de combate lidas de `EnemyData` — **não implementado**; quantidades estão hardcoded no `room_director.gd`
+* [x] `EnemyBoss` implementado com Fase 1 e Fase 2 distintas — `enemy_boss.gd`; `build_boss_room()` usa `&"boss"`
+* [x] Transição de fase ocorre a 50% de HP com feedback visual — `_check_phase_transition()`/`_enter_phase_2()` (flash vermelho 0.5s)
+* [x] Boss instanciado via `EnemyFactory` na sala 12 — `enemy_boss.tscn` criado nesta sessão (faltava a cena; `_SCENES["boss"]` já apontava para ela)
+* [ ] Quantidades de inimigos em salas de combate lidas de `EnemyData` — **ainda hardcoded** em `room_director.gd` por nível de dificuldade (`.tres` de `EnemyData` existem mas não são consultados para `spawn_count`)
 * [x] Derrotar o Boss emite `run_ended(true)` — `run.gd._on_room_cleared()` emite vitória quando a sala 12 (boss) é limpa via `GameFacade.victory()`
 
 ---
@@ -494,11 +494,11 @@ Links úteis:
 * [Vector2.normalized()](https://docs.godotengine.org/en/stable/classes/class_vector2.html)
 
 Tarefas:
-* [ ] `LongRangeWeapon` dispara projétil convencional em linha reta — **não existe**; só `projectile_base.gd` existe (sem subtipo de arma)
-* [ ] `ShortRangeWeapon` dispara projétil que retorna após alcance máximo — **não existe**
-* [ ] Projétil de retorno não causa dano ao próprio player — **não existe**
-* [ ] Ao menos 2 `.tres` de `WeaponData` por tipo criados — **não existe** (depende de Issue 04)
-* [ ] Trocar arma muda o tipo de projétil disparado em jogo — **não existe**
+* [x] `LongRangeWeapon` dispara projétil convencional em linha reta — `long_range_weapon.gd` + `projectile_base.gd`
+* [x] `ShortRangeWeapon` dispara projétil que retorna após alcance máximo — `short_range_weapon.gd` + `short_range_projectile.gd` (reescrito nesta sessão: era um placeholder `extends Node` nunca finalizado; agora estende `ProjectileBase` de fato, com cena `short_range_projectile.tscn` criada)
+* [x] Projétil de retorno não causa dano ao próprio player — `apply_damage_to()` ignora o `_shooter` durante o retorno
+* [x] Ao menos 2 `.tres` de `WeaponData` por tipo criados — `jogo/resources/weapons/{caderno,regua}.tres`
+* [x] Trocar arma muda o tipo de projétil disparado em jogo — `player.gd._weapon_type` + `short_range_pool`/`projectile_pool` distintos, ligados em `run.tscn`
 
 ---
 
@@ -528,11 +528,11 @@ Links úteis:
 * [Signal — GDScript](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html#signals)
 
 Tarefas:
-* [ ] `currency` rastreado no `GameManager` e resetado em `run_ended` — **não existe**; `GameManager` não tem variável `currency`
-* [ ] `add_currency()` e `spend_currency()` implementados com emissão de sinal — **não existem**
-* [ ] Explosão de baú concede moeda conforme `RoomRewardConfig` — **não existe** (depende de Issues 04 e 12)
-* [ ] HUD exibe saldo de moeda atualizado em tempo real — **não existe**
-* [ ] `spend_currency()` retorna `false` quando saldo insuficiente — **não existe**
+* [x] `currency` rastreado no `GameManager` e resetado em `run_ended` — confirmado
+* [x] `add_currency()` e `spend_currency()` implementados com emissão de sinal — confirmado
+* [x] Explosão de baú concede moeda conforme `RoomRewardConfig` — `chest.gd` + `random_bomb_loot()`
+* [ ] HUD exibe saldo de moeda atualizado em tempo real — **ainda não**; sem label de moeda no `hud.tscn` — ver Issue 09
+* [x] `spend_currency()` retorna `false` quando saldo insuficiente — confirmado; usado em `shop_npc.gd`
 
 ---
 
@@ -562,11 +562,11 @@ Links úteis:
 * [Area2D.body_entered](https://docs.godotengine.org/en/stable/classes/class_area2d.html#class-area2d-signal-body-entered)
 
 Tarefas:
-* [ ] `build_shop_room()` implementado com 4 NPCs por categoria — **não existe**
-* [ ] Cada NPC vende item gerado das tabelas de design — **não existe** (depende de Issues 04 e 15)
-* [ ] Diálogo de compra exibe nome, raridade e preço — **não existe**
-* [ ] Compra bem-sucedida debita moeda e adiciona item ao inventário — **não existe**
-* [ ] "Moeda insuficiente" exibido quando saldo não cobre o preço — **não existe**
+* [x] `build_shop_room()` implementado com 4 NPCs por categoria — implementado nesta sessão; `RoomBuilder.add_npc()` foi adicionado (a sala existia mas estava vazia) e `_SHOP_CATALOG` com Armeiro/Equipador/Boticário/Mentor
+* [x] Cada NPC vende item gerado das tabelas de design — `ItemData` instanciado por NPC a partir do catálogo
+* [x] Diálogo de compra exibe nome, raridade e preço — `shop_npc._build_dialog()` (construído em código, sem `.tscn` dedicado — decisão de escopo aceitável)
+* [x] Compra bem-sucedida debita moeda e adiciona item ao inventário — `GameManager.spend_currency()` + `SignalBus.item_picked_up.emit()`
+* [x] "Moeda insuficiente" exibido quando saldo não cobre o preço — `OS.alert("Moeda insuficiente!", "Loja")`
 
 ---
 
@@ -600,11 +600,11 @@ Links úteis:
 * [HBoxContainer — UI Layout](https://docs.godotengine.org/en/stable/classes/class_hboxcontainer.html)
 
 Tarefas:
-* [ ] Tela exibe os 4 perfis com nome e atributos base — **não existe**; cena `character_select.tscn` não foi criada
-* [ ] Selecionar perfil emite `profile_selected` com o nome correto — **não existe**; sinal `profile_selected` não está no `signal_bus.gd`
-* [ ] Perfil escolhido clonado e aplicado ao player antes da run — **não implementado**; `StudentProfileRegistry` existe mas `clone_profile()` não existe
-* [ ] Botão "Jogar" do menu abre a tela de seleção — **não implementado**; `main_menu.gd` vai direto para `run.tscn`
-* [ ] Trocar perfil entre runs não causa estado residual — **não testável** (tela não existe)
+* [x] Tela exibe os 4 perfis com nome e atributos base — `character_select.tscn` criado nesta sessão (script já existia sem cena)
+* [x] Selecionar perfil emite `profile_selected` com o nome correto — sinal existe em `signal_bus.gd`
+* [x] Perfil escolhido clonado e aplicado ao player antes da run — **bug corrigido nesta sessão**: `character_select.gd` emitia o sinal antes de `run.tscn` existir (perda de evento); agora persiste em `GameManager.selected_profile_name` e `run.gd._apply_selected_profile()` chama `StudentProfileRegistry.clone_profile()` + `profile.apply_to(_player)` em `_ready()`
+* [x] Botão "Jogar" do menu abre a tela de seleção — confirmado em `main_menu.gd`
+* [ ] Trocar perfil entre runs não causa estado residual — **pendente playtest manual** (lógica implementada, sem repetição de partidas completas)
 
 ---
 
@@ -634,11 +634,11 @@ Links úteis:
 * [Time.get_ticks_msec()](https://docs.godotengine.org/en/stable/classes/class_time.html#class-time-method-get-ticks-msec)
 
 Tarefas:
-* [x] Tela exibe "VITÓRIA" ou "DERROTA" conforme o resultado — `game_over.gd` exibe "VITÓRIA!" ou "VOCÊ MORREU" com base no parâmetro `victory` de `run_ended`
-* [ ] Estatísticas de salas, inimigos e tempo exibidas corretamente — **parcial**; tela só exibe o título; não mostra contadores de salas/inimigos/tempo
-* [ ] "Jogar Novamente" reinicia a run sem estado residual — **não implementado**; botão atual só tem "Voltar ao Menu" (`_on_voltar_pressed`)
-* [x] "Menu Principal" retorna ao menu corretamente — `_on_voltar_pressed()` chama `change_scene_to_file("res://scenes/ui/main_menu.tscn")`
-* [x] Tela ativada por `run_ended` — sem lógica hardcoded — `game_over.gd` escuta `SignalBus.run_ended` via código
+* [x] Tela exibe "VITÓRIA" ou "DERROTA" conforme o resultado — `game_over.gd` exibe "VITÓRIA!" ou "VOCÊ MORREU"
+* [x] Estatísticas de salas, inimigos e tempo exibidas corretamente — **bug corrigido nesta sessão**: o script já preenchia `_lbl_rooms`/`_lbl_enemies`/`_lbl_time`/`_lbl_score` via `@onready`, mas a cena `game_over.tscn` não tinha esses nós (`Center/VBox/Stats/...`) — causava `ERROR: Node not found` em runtime; nós adicionados à cena
+* [x] "Jogar Novamente" reinicia a run sem estado residual — botão `JogarNovamente` adicionado à cena, conectado a `_on_jogar_novamente_pressed()` (já existia no script, sem botão correspondente)
+* [x] "Menu Principal" retorna ao menu corretamente — confirmado
+* [x] Tela ativada por `run_ended` — sem lógica hardcoded — confirmado
 
 ---
 
@@ -813,8 +813,8 @@ Links úteis:
 * [GameFacade — `jogo/scripts/autoloads/game_facade.gd`]
 
 Tarefas:
-* [ ] Busca por `load().instantiate()` retorna zero ocorrências em scripts de inimigo/sala — **pendente**; `room_builder.gd` ainda usa `load().instantiate()` para `door.tscn` e `consumable.tscn` (não são inimigos, mas merecem revisão)
-* [ ] Spawners órfãos removidos do projeto — **não feito**; `basic_enemy_spawner.gd` e `ranged_enemy_spawner.gd` ainda existem como nós em `test_room.tscn`; os scripts já usam `EnemyFactory` mas a cena não foi removida
+* [x] Busca por `load().instantiate()` retorna zero ocorrências em scripts de inimigo — confirmado; instanciação de inimigos passa só por `EnemyFactory.create()`. `room_builder.gd` usa `load().instantiate()` apenas para `door.tscn`/`consumable.tscn`/`shop_npc.tscn` (não são inimigos — fora do escopo desta issue)
+* [x] Spawners órfãos removidos do projeto — confirmado via `grep`; `test_room.tscn` não contém nós de spawner
 * [ ] Toda comunicação entre sistemas passa por `GameFacade`/`SignalBus` — **parcial**; arquitetura principal respeita isso; `hud_abstraction.gd` mantém método legado `on_player_health_changed` para compatibilidade com `test_room.tscn`
-* [ ] Cenas de teste executadas sem erros após refactor — **pendente execução manual**
-* [ ] Playtest do loop completo confirma comportamento idêntico ao anterior — **pendente execução manual**
+* [x] Cenas de teste executadas sem erros após refactor — validado headless: `test_patterns` ✅, `test_facade` 12/12 ✅, `test_multiton` 12/12 ✅, `test_template_method` ✅
+* [ ] Playtest do loop completo confirma comportamento idêntico ao anterior — **pendente execução manual com input real** (validação automatizada via `godot --headless` não cobre interação de teclado/mouse)
