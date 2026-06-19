@@ -14,10 +14,13 @@ var _armed: bool = false
 
 @onready var collision: CollisionShape2D = $CollisionShape2D
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var _reward_label: Label = $RewardLabel
 
 
 func _ready() -> void:
 	add_to_group("doors")
+	_reward_label.text = RoomRewardConfig.description_for(reward_type)
+	_reward_label.visible = not _reward_label.text.is_empty()
 	if starts_locked:
 		lock()
 	else:

@@ -110,9 +110,22 @@ func _on_door_entered(_door_id: String) -> void:
 
 
 func _on_room_cleared() -> void:
+	_grant_room_reward()
 	# Limpar a sala do chefe encerra a run em vitória.
 	if _current_index == _BOSS_INDEX and not _ended:
 		GameFacade.victory()
+
+
+## Issue 15 — concede moeda ao limpar uma sala de combate (chest/shop já
+## entregam recompensa por interação própria; rest/empty não têm reward).
+func _grant_room_reward() -> void:
+	var room_type: String = GameManager.ROOM_SEQUENCE[clampi(_current_index, 0, GameManager.ROOM_SEQUENCE.size() - 1)]
+	var reward: StringName = RoomRewardConfig.reward_for(room_type)
+	var amount: int = RoomRewardConfig.currency_for(reward)
+	if amount <= 0:
+		return
+	GameManager.add_currency(amount)
+	SignalBus.item_picked_up.emit({"name": "Recompensa (+%d moedas)" % amount})
 
 
 func _on_run_ended(_victory: bool) -> void:

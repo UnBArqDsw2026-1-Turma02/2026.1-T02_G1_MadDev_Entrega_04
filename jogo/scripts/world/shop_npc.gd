@@ -55,6 +55,8 @@ func _build_dialog() -> Control:
 	var root := PanelContainer.new()
 	root.name = "ShopDialog"
 	root.anchors_preset = Control.PRESET_CENTER
+	# Sem isso, os botões não recebem input com get_tree().paused = true.
+	root.process_mode = Node.PROCESS_MODE_ALWAYS
 	var vbox := VBoxContainer.new()
 	root.add_child(vbox)
 
