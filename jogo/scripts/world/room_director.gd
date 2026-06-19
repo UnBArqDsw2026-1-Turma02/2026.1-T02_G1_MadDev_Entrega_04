@@ -75,9 +75,29 @@ func build_chest_room() -> Node2D:
 	return _builder.build()
 
 
+## Catálogo dos 4 vendedores. Cada um vende uma categoria fixa de item.
+const _SHOP_CATALOG: Array[Dictionary] = [
+	{"category": "Armeiro",   "item_name": "Espada Curta", "item_type": &"weapon",    "rarity": 1, "price": 25},
+	{"category": "Equipador", "item_name": "Armadura de Couro", "item_type": &"armor", "rarity": 0, "price": 20},
+	{"category": "Boticário", "item_name": "Poção Grande",  "item_type": &"potion",    "rarity": 1, "price": 15},
+	{"category": "Mentor",    "item_name": "Tônico de XP",  "item_type": &"status",    "rarity": 2, "price": 30},
+]
+const _SHOP_NPC_POSITIONS: Array[Vector2] = [
+	Vector2(70, 80), Vector2(230, 80), Vector2(70, 180), Vector2(230, 180),
+]
+
+
 func build_shop_room() -> Node2D:
 	_builder.set_room_name("Sala da Loja")
 	_builder.set_room_type("shop")
 	_builder.set_player_start(Vector2(152, 150))
 	_builder.set_exits([Vector2(-44, -106), Vector2(300, -106)])
+	for i in range(_SHOP_CATALOG.size()):
+		var entry: Dictionary = _SHOP_CATALOG[i]
+		var item := ItemData.new()
+		item.item_name   = entry["item_name"]
+		item.item_type   = entry["item_type"]
+		item.rarity      = entry["rarity"]
+		item.price       = entry["price"]
+		_builder.add_npc(entry["category"], item, _SHOP_NPC_POSITIONS[i])
 	return _builder.build()

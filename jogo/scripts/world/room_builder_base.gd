@@ -25,6 +25,9 @@ func set_enemy_count(_count: int, _type: StringName = &"basic") -> RoomBuilderBa
 func add_item(_type: StringName, _pos: Vector2) -> RoomBuilderBase:
 	return self
 
+func add_npc(_category: String, _item: ItemData, _pos: Vector2) -> RoomBuilderBase:
+	return self
+
 func set_exits(_directions: Array[Vector2]) -> RoomBuilderBase:
 	return self
 

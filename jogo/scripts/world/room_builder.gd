@@ -4,6 +4,7 @@ class_name RoomBuilder
 extends RoomBuilderBase
 
 const _ITEM_SCENE: String = "res://scenes/consumables/consumable.tscn"
+const _NPC_SCENE: String = "res://scenes/world/shop_npc.tscn"
 
 # Tileset room.tres: source 0 = piso (sem colisão), source 1 = parede (colisão, layer 2).
 const _FLOOR_SOURCE: int = 0
@@ -18,6 +19,7 @@ var _room_name: String = "Sala"
 var _room_type: String = "combat"
 var _enemy_list: Array[Dictionary] = []
 var _item_list: Array[Dictionary] = []
+var _npc_list: Array[Dictionary] = []
 var _door_positions: Array[Vector2] = []
 var _tilemap_source: String = "res://art/tilesets/room.tres"
 var _player_start_position: Vector2 = Vector2(152, 112)
@@ -61,6 +63,10 @@ func set_enemy_count(count: int, enemy_type: StringName = &"basic") -> RoomBuild
 
 func add_item(item_type: StringName, position: Vector2) -> RoomBuilderBase:
 	_item_list.append({"type": item_type, "pos": position})
+	return self
+
+func add_npc(category: String, item: ItemData, position: Vector2) -> RoomBuilderBase:
+	_npc_list.append({"category": category, "item": item, "pos": position})
 	return self
 
 func set_exits(directions: Array[Vector2]) -> RoomBuilderBase:
@@ -116,6 +122,13 @@ func build() -> Node2D:
 		if item:
 			item.position = item_data["pos"]
 			room.add_child(item)
+
+	# 6. NPCs (loja)
+	for npc_data in _npc_list:
+		var npc := _create_npc(npc_data["category"], npc_data["item"])
+		if npc:
+			npc.position = npc_data["pos"]
+			room.add_child(npc)
 
 	return room
 
@@ -188,3 +201,13 @@ func _create_item(type: StringName) -> Node:
 	var item := scene.instantiate()
 	item.set("consumable_name", str(type))
 	return item
+
+
+func _create_npc(category: String, item: ItemData) -> Node:
+	var scene := load(_NPC_SCENE) as PackedScene
+	if scene == null:
+		return null
+	var npc := scene.instantiate()
+	npc.set("category", category)
+	npc.set("item", item)
+	return npc
