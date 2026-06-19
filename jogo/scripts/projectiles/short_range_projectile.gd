@@ -1,54 +1,41 @@
-## Object Pool — projétil de curto alcance que retorna ao ponto de origem.
-## Estende ProjectileBase; sobrescreve _physics_process para lógica de retorno.
-extends Node  # Será substituído por ProjectileBase quando a cena for criada
+## Object Pool — projétil de curto alcance que retorna ao ponto de origem (bumerangue).
+## Estende ProjectileBase; sobrescreve o movimento para reverter ao atingir max_range.
+class_name ShortRangeProjectile
+extends "res://scripts/projectiles/projectile_base.gd"
 
 ## Distância máxima antes de reverter direção (pixels).
 @export var max_range: float = 120.0
 
 var _start_position: Vector2 = Vector2.ZERO
-var _direction: Vector2 = Vector2.ZERO
-var _speed: float = 250.0
 var _returning: bool = false
-var _shooter: Node = null
-var _pool: Node = null
 
 
-func enable(pos: Vector2, dir: Vector2) -> void:
-	_start_position = pos
-	_direction = dir
+func enable(spawn_position: Vector2, spawn_direction: Vector2) -> void:
+	super.enable(spawn_position, spawn_direction)
+	_start_position = spawn_position
 	_returning = false
-	global_position = pos
-	process_mode = Node.PROCESS_MODE_INHERIT
-	visible = true
 
 
-func set_shooter(node: Node) -> void:
-	_shooter = node
-
-
-func set_pool(pool: Node) -> void:
-	_pool = pool
-
-
-func _physics_process(delta: float) -> void:
-	var travel := global_position.distance_to(_start_position)
+func _process(delta: float) -> void:
+	var travel: float = global_position.distance_to(_start_position)
 
 	if not _returning and travel >= max_range:
 		_returning = true
-		_direction = -_direction
+		direction = -direction
 
-	if _returning:
-		# Ao retornar até o ponto de origem, desativa (não causa dano ao shooter)
-		if travel <= 8.0:
-			_return_to_pool()
-			return
+	if _returning and travel <= 8.0 and _elapsed > 0.05:
+		# Retorna ao ponto de origem sem causar dano ao próprio atirador.
+		call_deferred("disable")
+		return
 
-	global_position += _direction * _speed * delta
+	position += direction * speed * delta
+	_elapsed += delta
+	if _elapsed >= lifetime:
+		disable()
 
 
-func _return_to_pool() -> void:
-	if _pool and _pool.has_method("return_projectile"):
-		_pool.return_projectile(self)
-	else:
-		process_mode = Node.PROCESS_MODE_DISABLED
-		visible = false
+func apply_damage_to(target: Node) -> void:
+	# No retorno, não causa dano ao atirador (cumpre a regra de Issue 14).
+	if _returning and target == _shooter:
+		return
+	super.apply_damage_to(target)

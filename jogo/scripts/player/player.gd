@@ -19,9 +19,12 @@ extends CharacterBody2D
 # Object Pool — pool de projéteis do player
 # ---------------------------------------------------------------------------
 @export var projectile_pool: ProjectilePool
+@export var short_range_pool: ProjectilePool
 @export var shoot_cooldown: float = 0.3
 
 var _shoot_timer: float = 0.0
+## Issue 14 — alterado por LongRangeWeapon/ShortRangeWeapon ao equipar; decide qual pool dispara.
+var _weapon_type: StringName = &"long"
 
 # ---------------------------------------------------------------------------
 # Slots de equipamento (Decorator / Iterator)
@@ -117,10 +120,12 @@ func _execute_dash() -> void:
 # Object Pool — disparo via pool de projéteis
 # ---------------------------------------------------------------------------
 func _shoot() -> void:
-	if projectile_pool == null:
+	## Issue 14 — arma curta usa o pool de bumerangue; demais tipos usam o pool padrão.
+	var pool: ProjectilePool = short_range_pool if _weapon_type == &"short" and short_range_pool else projectile_pool
+	if pool == null:
 		return
 	var dir: Vector2 = (get_global_mouse_position() - global_position).normalized()
-	projectile_pool.get_projectile(global_position, dir, self)
+	pool.get_projectile(global_position, dir, self)
 	_shoot_timer = shoot_cooldown
 
 

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bshortrangeproj001"]
+
+[ext_resource type="Script" path="res://scripts/projectiles/short_range_projectile.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bh6qb37fqp2vc" path="res://icon.svg" id="2_icon"]
+
+[sub_resource type="CircleShape2D" id="Shape_short_proj"]
+radius = 5.0
+
+[node name="ShortRangeProjectile" type="Area2D"]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.3, 0.8, 1, 1)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("2_icon")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Shape_short_proj")
+
+[connection signal="body_entered" from="." to="." method="apply_damage_to"]
