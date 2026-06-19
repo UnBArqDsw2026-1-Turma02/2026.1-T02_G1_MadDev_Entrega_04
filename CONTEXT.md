@@ -69,19 +69,33 @@ básicos; não é trabalho de código.
   `EnemyData.spawn_count` existindo nos `.tres`. Ligar isso é mecânico
   (ler `EnemyData` em vez do `match difficulty`) mas não foi feito — baixo
   risco, é só dado de design.
-- **Reset de equipamento/benefício em `run_ended` não foi auditado** —
-  o player é persistente entre salas dentro de uma run; não está confirmado
-  que `equipment`/`active_benefit` são limpos ao reiniciar (Issues 06/07,
-  RNF-07). Vale um teste manual: equipar item → morrer → nova run → conferir
-  inventário vazio.
+- **Reset de equipamento/benefício em `run_ended`** — confirmado e corrigido
+  nesta sessão: `_on_run_ended()` em `player.gd` zerava os Dictionaries
+  direto (`equipment[slot] = null`), pulando `on_unequip()`/`deactivate()`
+  e os sinais. Trocado para chamar `unequip()`/`unequip_benefit()` (na
+  ordem correta, antes de `stats.reset_to_base()`) para reverter
+  modificadores e emitir os sinais que o HUD agora escuta.
+- **Sem contador persistente de bomba/poção/chave no HUD** — os
+  consumíveis (Issue 05) aplicam efeito instantâneo ao coletar
+  (`ConsumableBase._on_pickup()` chama `_apply_effect()` e `queue_free()`
+  na mesma chamada); não existe inventário/contagem desses itens em
+  nenhum lugar do código. Implementar contadores reais exigiria redesenhar
+  o sistema de consumíveis para "carregar e usar depois" — não fiz isso
+  por ser uma mudança de arquitetura, não um bug. Em vez disso, o HUD
+  mostra um feed transitório ("+ Nome do item" por 1.5s) via
+  `SignalBus.item_picked_up`, que é a confirmação visual fiel ao desenho
+  real implementado.
 
-## O que falta (real, não está nos commits ainda implementado)
+## HUD completo (Issue 09) — feito nesta sessão
 
-1. **HUD completo (Issue 09)** — `hud.tscn` só tem barra de HP, score e
-   tempo. Faltam: contador de bombas/poções/chaves, slot de arma equipada,
-   slot de benefício ativo, label de moeda. O padrão a seguir é o mesmo já
-   usado para HP/score: conectar a sinais do `SignalBus`
-   (`item_picked_up`, `currency_changed`, etc.), sem polling em `_process`.
+`hud.tscn` ganhou `CurrencyLabel`, `WeaponLabel` e `BenefitLabel`.
+Novos sinais no `SignalBus` (Mediator): `equipment_changed(slot, item)` e
+`benefit_changed(benefit)`, emitidos por `player.equip()`/`unequip()`/
+`equip_benefit()`/`unequip_benefit()`. `hud_abstraction.gd` escuta esses
+sinais + `currency_changed` + `item_picked_up`, sem polling em `_process`.
+`WeaponLabel` só reage ao slot 0 (`EquipSlot.HEAD`), que é o slot
+reaproveitado por `WeaponItem` (ver comentário em `weapon_item.gd:9`) —
+não existe um slot de arma dedicado no enum `EquipSlot` atual.
 2. **Issues 19–22 (assets)** — sprites de player/inimigos/itens, música,
    SFX. Trabalho de produção de arte, não de programação.
 3. **Playtest manual com input real** — toda a validação feita nesta sessão

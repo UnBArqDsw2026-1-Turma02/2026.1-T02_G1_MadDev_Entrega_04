@@ -56,6 +56,7 @@ func reset_run() -> void:
 	current_room_index = 0
 	run_score = 0
 	currency = 0
+	SignalBus.currency_changed.emit(currency)
 	player_level = 1
 	player_xp = 0
 	xp_to_next_level = 10

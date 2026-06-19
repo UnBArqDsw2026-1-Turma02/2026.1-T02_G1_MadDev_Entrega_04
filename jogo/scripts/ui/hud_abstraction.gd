@@ -20,6 +20,9 @@ class_name HUDAbstraction
 @onready var _time_label: Label = $VBoxContainer/TimeLabel
 @onready var _consumable_bar: HBoxContainer = $VBoxContainer/ConsumableRow
 @onready var _achievement_label: Label = $VBoxContainer/AchievementLabel
+@onready var _currency_label: Label = $VBoxContainer/CurrencyLabel
+@onready var _weapon_label: Label = $VBoxContainer/WeaponLabel
+@onready var _benefit_label: Label = $VBoxContainer/BenefitLabel
 
 # ---------------------------------------------------------------------------
 # Estado do cronômetro da run
@@ -46,6 +49,10 @@ func _ready() -> void:
 	SignalBus.run_ended.connect(_on_run_ended)
 	SignalBus.game_paused.connect(_on_game_paused)
 	SignalBus.achievement_unlocked.connect(_on_achievement_unlocked)
+	SignalBus.currency_changed.connect(_on_currency_changed)
+	SignalBus.equipment_changed.connect(_on_equipment_changed)
+	SignalBus.benefit_changed.connect(_on_benefit_changed)
+	SignalBus.item_picked_up.connect(_on_item_picked_up)
 
 
 func _process(delta: float) -> void:
@@ -102,13 +109,38 @@ func _on_achievement_unlocked(achievement: Achievement) -> void:
 	_achievement_label.visible = false
 
 
+func _on_currency_changed(new_amount: int) -> void:
+	_currency_label.text = "Moeda: %d" % new_amount
+
+
+## EquipSlot.HEAD (índice 0) é o slot reaproveitado por WeaponItem (ver weapon_item.gd).
+func _on_equipment_changed(slot: int, item: Resource) -> void:
+	if slot != 0:
+		return
+	if item != null and item.get("weapon_name") != null:
+		_weapon_label.text = "Arma: %s" % item.weapon_name
+	else:
+		_weapon_label.text = "Arma: nenhuma"
+
+
+func _on_benefit_changed(benefit: Resource) -> void:
+	if benefit != null and benefit.get("consumable_name") != null:
+		_benefit_label.text = "Benefício: %s" % benefit.consumable_name
+	else:
+		_benefit_label.text = "Benefício: nenhum"
+
+
 # ---------------------------------------------------------------------------
-# Iterator — itera sobre os dados de consumíveis e atualiza os ícones
+# Iterator — itera sobre o feed transitório de coletas recentes
 # ---------------------------------------------------------------------------
-func update_consumables(consumable_list: Array) -> void:
+## Consumíveis têm efeito instantâneo ao coletar (sem inventário persistente);
+## o feed mostra a última coleta por 1.5s como confirmação visual.
+func _on_item_picked_up(item_data: Dictionary) -> void:
 	for child in _consumable_bar.get_children():
 		child.queue_free()
-	for item in consumable_list:
-		var label := Label.new()
-		label.text = str(item)
-		_consumable_bar.add_child(label)
+	var label := Label.new()
+	label.text = "+ %s" % item_data.get("name", "Item")
+	_consumable_bar.add_child(label)
+	await get_tree().create_timer(1.5).timeout
+	if is_instance_valid(label):
+		label.queue_free()

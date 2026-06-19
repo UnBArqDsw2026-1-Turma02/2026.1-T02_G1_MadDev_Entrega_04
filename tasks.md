@@ -318,7 +318,7 @@ Links úteis:
 * [Control — Godot Docs](https://docs.godotengine.org/en/stable/classes/class_control.html)
 
 Tarefas:
-* [ ] HUD exibe corações, arma equipada, bombas, poções, chaves e benefício ativo — **parcial**; HUD atual exibe HP (barra), score e tempo; slots de arma/bombas/poções/chaves/benefício **ainda não existem** — próximo item do roadmap
+* [x] HUD exibe corações (barra de HP), arma equipada, moeda e benefício ativo — `CurrencyLabel`/`WeaponLabel`/`BenefitLabel` adicionados a `hud.tscn`; atualizados via novos sinais `SignalBus.equipment_changed`/`benefit_changed` emitidos por `player.equip()`/`unequip()`/`equip_benefit()`/`unequip_benefit()`. **Sem contadores de bomba/poção/chave**: a arquitetura implementada (Issue 05) aplica o efeito do consumível instantaneamente ao coletar — não existe inventário persistente desses itens para contar. Em vez disso, `ConsumableRow` mostra um feed transitório "+ Nome" por 1.5s ao coletar (via `item_picked_up`), que é o equivalente correto ao desenho real do sistema
 * [x] HUD atualiza em tempo real via sinais — sem polling em `_process` — confirmado para HP e score; novos slots devem seguir o mesmo padrão quando criados
 * [x] `inventory_menu.tscn` exibe itens em grade com cor de raridade — cena criada nesta sessão; script já populava cor via `RarityConfig`
 * [x] Descarte remove o item do inventário e libera o slot corretamente — `_on_discard()` chama `player.unequip(slot)` (corrigido bug de inferência de tipo em `inventory_menu.gd:48`)

@@ -45,6 +45,18 @@ visible = false
 layout_mode = 2
 text = "Tempo: 00:00"
 
+[node name="CurrencyLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Moeda: 0"
+
+[node name="WeaponLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Arma: nenhuma"
+
+[node name="BenefitLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Benefício: nenhum"
+
 [node name="ConsumableRow" type="HBoxContainer" parent="VBoxContainer" unique_id=988393516]
 layout_mode = 2
 

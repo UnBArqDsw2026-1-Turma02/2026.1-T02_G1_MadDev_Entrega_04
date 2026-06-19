@@ -170,10 +170,10 @@ func _on_run_ended(_victory: bool) -> void:
 	_is_dead = false
 	_can_dash = true
 	_is_dashing = false
-	stats.reset_to_base()
 	for slot in equipment.keys():
-		equipment[slot] = null
-	active_benefit = null
+		unequip(slot)
+	unequip_benefit()
+	stats.reset_to_base()
 
 
 # ---------------------------------------------------------------------------
@@ -185,12 +185,14 @@ func equip(slot: EquipSlot, item: Resource) -> void:
 	equipment[slot] = item
 	if item != null and item.has_method("on_equip"):
 		item.on_equip(self)
+	SignalBus.equipment_changed.emit(slot, item)
 
 
 func unequip(slot: EquipSlot) -> void:
 	if equipment[slot] != null and equipment[slot].has_method("on_unequip"):
 		equipment[slot].on_unequip(self)
 	equipment[slot] = null
+	SignalBus.equipment_changed.emit(slot, null)
 
 
 func get_equipped(slot: EquipSlot) -> Resource:
@@ -206,9 +208,11 @@ func equip_benefit(benefit: Resource) -> void:
 	active_benefit = benefit
 	if benefit != null and benefit.has_method("activate"):
 		benefit.activate(self)
+	SignalBus.benefit_changed.emit(benefit)
 
 
 func unequip_benefit() -> void:
 	if active_benefit != null and active_benefit.has_method("deactivate"):
 		active_benefit.deactivate(self)
 	active_benefit = null
+	SignalBus.benefit_changed.emit(null)

@@ -33,6 +33,8 @@ signal item_picked_up(item_data: Dictionary)
 signal consumable_used(consumable_type: String)
 signal key_used()
 signal bomb_used(origin: Vector2)
+signal equipment_changed(slot: int, item: Resource)
+signal benefit_changed(benefit: Resource)
 
 # ---------------------------------------------------------------------------
 # Jogo / Meta
