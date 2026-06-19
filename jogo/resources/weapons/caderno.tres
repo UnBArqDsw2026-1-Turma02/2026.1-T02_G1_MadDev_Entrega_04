@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://bweapondatalongo1"]
+
+[ext_resource type="Script" uid="uid://buyr80sy8dje" path="res://scripts/resources/weapon_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+weapon_name = "Caderno Arremessável"
+damage_modifier = 5
+range_type = 0
+rarity = 0
+projectile_speed = 320.0
+shoot_cooldown = 0.35

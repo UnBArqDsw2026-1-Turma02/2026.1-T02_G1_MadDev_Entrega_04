@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://bweapondatacurta1"]
+
+[ext_resource type="Script" uid="uid://buyr80sy8dje" path="res://scripts/resources/weapon_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+weapon_name = "Régua Bumerangue"
+damage_modifier = 8
+range_type = 1
+rarity = 1
+projectile_speed = 280.0
+shoot_cooldown = 0.5

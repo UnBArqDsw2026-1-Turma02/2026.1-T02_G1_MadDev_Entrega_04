@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://benemydataboss001"]
+
+[ext_resource type="Script" uid="uid://b7so37cxjctto" path="res://scripts/resources/enemy_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+enemy_type = &"boss"
+max_health = 300
+attack_damage = 20
+move_speed = 60.0
+defense = 2
+resistance = 0.2
+xp_reward = 50
+spawn_count = 1
