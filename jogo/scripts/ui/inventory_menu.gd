@@ -45,8 +45,7 @@ func _refresh() -> void:
 			label_text = iname
 			slot_btn.modulate = RarityConfig.color_for(rarity)
 		slot_btn.text = label_text
-		var captured_slot := slot_key
-		slot_btn.pressed.connect(func(): _on_discard(captured_slot))
+		slot_btn.pressed.connect(_on_discard.bind(slot_key))
 		_grid.add_child(slot_btn)
 
 	var benefit: Resource = _player.get("active_benefit")

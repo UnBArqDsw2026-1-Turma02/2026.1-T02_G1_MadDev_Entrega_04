@@ -19,7 +19,15 @@ func _ready() -> void:
 	SignalBus.door_entered.connect(_on_door_entered)
 	SignalBus.room_cleared.connect(_on_room_cleared)
 	SignalBus.run_ended.connect(_on_run_ended)
+	_apply_selected_profile()
 	_load_room(0)
+
+
+## Issue 17 — aplica o perfil escolhido em character_select.tscn (Multiton via clone_profile).
+func _apply_selected_profile() -> void:
+	var profile: StudentProfile = StudentProfileRegistry.clone_profile(GameManager.selected_profile_name)
+	if profile:
+		profile.apply_to(_player)
 
 
 # ---------------------------------------------------------------------------

@@ -35,8 +35,35 @@ layout_mode = 2
 text = "FIM"
 horizontal_alignment = 1
 
-[node name="Voltar" type="Button" parent="Center/VBox"]
+[node name="Stats" type="VBoxContainer" parent="Center/VBox"]
+layout_mode = 2
+
+[node name="Rooms" type="Label" parent="Center/VBox/Stats"]
+layout_mode = 2
+text = "Salas concluídas: 0"
+
+[node name="Enemies" type="Label" parent="Center/VBox/Stats"]
+layout_mode = 2
+text = "Inimigos mortos: 0"
+
+[node name="Time" type="Label" parent="Center/VBox/Stats"]
+layout_mode = 2
+text = "Tempo: 00:00"
+
+[node name="Score" type="Label" parent="Center/VBox/Stats"]
+layout_mode = 2
+text = "Pontuação: 0"
+
+[node name="Buttons" type="HBoxContainer" parent="Center/VBox"]
+layout_mode = 2
+
+[node name="JogarNovamente" type="Button" parent="Center/VBox/Buttons"]
+layout_mode = 2
+text = "Jogar Novamente"
+
+[node name="Voltar" type="Button" parent="Center/VBox/Buttons"]
 layout_mode = 2
 text = "Voltar ao Menu"
 
-[connection signal="pressed" from="Center/VBox/Voltar" to="." method="_on_voltar_pressed"]
+[connection signal="pressed" from="Center/VBox/Buttons/JogarNovamente" to="." method="_on_jogar_novamente_pressed"]
+[connection signal="pressed" from="Center/VBox/Buttons/Voltar" to="." method="_on_voltar_pressed"]

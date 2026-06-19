@@ -16,6 +16,9 @@ var player_level: int = 1
 var player_xp: int = 0
 var xp_to_next_level: int = 10
 
+## Perfil escolhido em character_select.tscn; lido por run.gd ao montar a run.
+var selected_profile_name: String = "Calouro"
+
 # ---------------------------------------------------------------------------
 # Geração de salas usando Builder
 # ---------------------------------------------------------------------------

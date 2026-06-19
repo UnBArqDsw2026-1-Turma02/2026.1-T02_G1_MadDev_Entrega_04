@@ -54,6 +54,7 @@ func _on_profile_btn_pressed(profile_name: String, btn: Button) -> void:
 func _on_confirm() -> void:
 	if _selected.is_empty():
 		return
+	GameManager.selected_profile_name = _selected
 	SignalBus.profile_selected.emit(_selected)
 	profile_confirmed.emit(_selected)
 	GameFacade.start_run()
