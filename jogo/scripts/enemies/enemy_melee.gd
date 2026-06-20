@@ -29,12 +29,16 @@ func can_attack() -> bool:
 	return global_position.distance_to(_player.global_position) <= melee_range
 
 
-## Hook — animação/som de preparação antes do golpe
+## Hook — telegrafa o golpe com um leve "avanço" (lunge) na direção do player.
 func prepare_attack() -> void:
-	print(name, " se prepara para atacar!")
+	if _sprite == null or _player == null:
+		return
+	var lunge := global_position.direction_to(_player.global_position) * 4.0
+	var tw := create_tween()
+	tw.tween_property(_sprite, "position", lunge, 0.08)
+	tw.tween_property(_sprite, "position", Vector2.ZERO, 0.12)
 
 
-## Primitive — golpe corpo a corpo com dano aumentado
+## Primitive — golpe corpo a corpo (todo dano inimigo custa 1 coração ao player).
 func execute_attack() -> void:
-	print(name, " ATACOU COM A FORÇA BRUTA!")
-	_apply_damage_to_player(attack_damage * 2)
+	_apply_damage_to_player(attack_damage)

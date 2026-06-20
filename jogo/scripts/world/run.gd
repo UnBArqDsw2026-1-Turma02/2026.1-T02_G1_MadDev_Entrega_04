@@ -5,7 +5,9 @@ extends Node2D
 
 const _TOTAL_ROOMS := 12
 const _BOSS_INDEX := 11  # Sala 12 (índice 11)
-const _ENEMY_SPAWN_DELAY := 0.8  # atraso (s) para o player se situar antes dos inimigos
+const _ENEMY_SPAWN_DELAY := 1.0  # atraso (s): telegrafa o spawn antes de o inimigo nascer
+const _XP_PER_KILL := 4
+const _SPAWN_INDICATOR := "res://scenes/world/spawn_indicator.tscn"
 
 @onready var _room_host: Node2D = $RoomHost
 @onready var _player: CharacterBody2D = $Player
@@ -19,8 +21,16 @@ func _ready() -> void:
 	SignalBus.door_entered.connect(_on_door_entered)
 	SignalBus.room_cleared.connect(_on_room_cleared)
 	SignalBus.run_ended.connect(_on_run_ended)
+	SignalBus.enemy_died.connect(_on_enemy_died)
 	_apply_selected_profile()
 	_load_room(0)
+
+
+## Recompensa de XP por abate (o placar é tratado pelo AchievementManager).
+func _on_enemy_died(_enemy: Node) -> void:
+	if _ended:
+		return
+	GameManager.add_xp(_XP_PER_KILL)
 
 
 ## Issue 17 — aplica o perfil escolhido em character_select.tscn (Multiton via clone_profile).
@@ -57,7 +67,8 @@ func _load_room(index: int) -> void:
 
 
 ## Spawna os inimigos da sala (guardados em meta pelo Builder) só depois do player
-## já estar posicionado, com um pequeno atraso — assim ele não nasce cercado.
+## já estar posicionado. Primeiro telegrafa cada ponto de spawn (game feel /
+## leitura), e só então faz nascer o inimigo no lugar do indicador.
 ## Usa EnemyFactory (Factory Method), a fonte única de criação de inimigos.
 func _spawn_enemies_delayed(room: Node2D) -> void:
 	if not room.has_meta("enemies"):
@@ -66,12 +77,29 @@ func _spawn_enemies_delayed(room: Node2D) -> void:
 	if enemies.is_empty():
 		return
 
+	# 1. Telegrafa os pontos de spawn imediatamente.
+	var indicators: Array[Node] = []
+	var ind_scene := load(_SPAWN_INDICATOR) as PackedScene
+	for data in enemies:
+		var ind: Node = null
+		if ind_scene:
+			ind = ind_scene.instantiate()
+			ind.position = data["pos"]
+			room.add_child(ind)
+		indicators.append(ind)
+
+	# 2. Espera o tempo de leitura.
 	await get_tree().create_timer(_ENEMY_SPAWN_DELAY).timeout
 	# A sala pode ter sido descarregada nesse meio-tempo.
 	if not is_instance_valid(room) or not room.is_inside_tree():
 		return
 
-	for data in enemies:
+	# 3. Estoura cada indicador e faz o inimigo nascer no lugar.
+	for i in range(enemies.size()):
+		var data: Dictionary = enemies[i]
+		var ind: Node = indicators[i]
+		if is_instance_valid(ind) and ind.has_method("burst"):
+			ind.burst()
 		var enemy := EnemyFactory.create(data["type"])
 		if enemy == null:
 			continue

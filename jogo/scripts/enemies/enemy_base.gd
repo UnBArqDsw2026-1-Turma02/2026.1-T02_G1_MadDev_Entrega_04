@@ -17,6 +17,12 @@ extends CharacterBody2D
 var current_health: int = max_health
 var _is_dead: bool = false
 
+# Game feel — referência ao sprite para "pop" de spawn, flash de dano e morte.
+@onready var _sprite: Sprite2D = get_node_or_null("Sprite2D")
+var _base_modulate: Color = Color.WHITE
+var _base_scale: Vector2 = Vector2.ONE
+var _flash_tween: Tween = null
+
 
 # ---------------------------------------------------------------------------
 # Lifecycle
@@ -24,6 +30,18 @@ var _is_dead: bool = false
 func _ready() -> void:
 	add_to_group("enemy")
 	current_health = max_health
+	if _sprite:
+		_base_modulate = _sprite.modulate
+		_base_scale = _sprite.scale
+		_play_spawn_pop()
+
+
+## Aparece com um "pop" elástico em vez de surgir estático.
+func _play_spawn_pop() -> void:
+	_sprite.scale = Vector2.ZERO
+	var tw := create_tween()
+	tw.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(_sprite, "scale", _base_scale, 0.28)
 
 
 # ---------------------------------------------------------------------------
@@ -43,18 +61,41 @@ func take_damage(amount: int) -> void:
 	damage_chain.handle(amount, context)
 
 func apply_final_damage(final_damage: int) -> void:
+	if _is_dead:
+		return
 	current_health = maxi(0, current_health - final_damage)
-	
+	_flash_hit()
 	if current_health == 0:
 		_die()
+
+
+## Flash branco rápido ao levar dano, voltando à cor base (feedback de acerto).
+func _flash_hit() -> void:
+	if _sprite == null:
+		return
+	if _flash_tween and _flash_tween.is_valid():
+		_flash_tween.kill()
+	_sprite.modulate = Color(2.2, 2.2, 2.2)
+	_flash_tween = create_tween()
+	_flash_tween.tween_property(_sprite, "modulate", _base_modulate, 0.14)
 
 
 func _die() -> void:
 	if _is_dead:
 		return
 	_is_dead = true
+	# Avisa os sistemas (validator/score/xp) imediatamente; a animação é só visual.
 	SignalBus.enemy_died.emit(self)
-	queue_free()
+	set_deferred("collision_layer", 0)
+	set_physics_process(false)
+	if _sprite:
+		var tw := create_tween()
+		tw.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+		tw.tween_property(_sprite, "scale", Vector2.ZERO, 0.18)
+		tw.parallel().tween_property(_sprite, "modulate:a", 0.0, 0.18)
+		tw.tween_callback(queue_free)
+	else:
+		queue_free()
 
 
 # ---------------------------------------------------------------------------

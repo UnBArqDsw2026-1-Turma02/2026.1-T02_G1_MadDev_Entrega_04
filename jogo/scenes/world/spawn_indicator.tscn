@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bspawnind00001"]
+
+[ext_resource type="Script" path="res://scripts/world/spawn_indicator.gd" id="1_ind"]
+[ext_resource type="Texture2D" uid="uid://bh6qb37fqp2vc" path="res://icon.svg" id="2_icon"]
+
+[node name="SpawnIndicator" type="Node2D"]
+script = ExtResource("1_ind")
+
+[node name="Ring" type="Sprite2D" parent="."]
+modulate = Color(1, 0.35, 0.2, 0.5)
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("2_icon")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0.25, 0.2, 0.9)
+scale = Vector2(0.09, 0.09)
+texture = ExtResource("2_icon")

@@ -50,8 +50,18 @@ func _enter_phase_2() -> void:
 	current_phase = 2
 	move_speed   = _base_speed  * phase2_speed_multiplier
 	attack_damage = roundi(_base_damage * phase2_damage_multiplier)
-	# Feedback visual: flash vermelho por 0.5s
-	modulate = Color.RED
-	await get_tree().create_timer(0.5).timeout
-	modulate = Color.WHITE
-	SignalBus.enemy_spawned.emit(self)  # reutiliza sinal disponível; substitua por boss_phase_changed se preferir
+	# Feedback visual de fúria: pulso vermelho no sprite, voltando à cor base.
+	# NÃO reemitimos enemy_spawned aqui: isso inflava a contagem do RoomValidator
+	# e impedia a sala do chefe de "limpar" (logo, a vitória nunca disparava).
+	if _sprite:
+		var tw := create_tween()
+		tw.tween_property(_sprite, "modulate", Color(2.5, 0.4, 0.4), 0.1)
+		tw.tween_property(_sprite, "modulate", _base_modulate, 0.6)
+	_apply_shake_to_camera()
+
+
+## Pequeno tremor de câmera na transição de fase (procura a câmera do player).
+func _apply_shake_to_camera() -> void:
+	var player := get_tree().get_first_node_in_group("player")
+	if player and player.has_method("_apply_shake"):
+		player._apply_shake(8.0, 0.5)
