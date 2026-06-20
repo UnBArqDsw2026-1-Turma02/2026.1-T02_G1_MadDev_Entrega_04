@@ -44,9 +44,10 @@ func build_rest_room() -> Node2D:
 	_builder.set_safe_heal(true)
 	_builder.set_player_start(Vector2(152, 112))
 	_builder.set_exits([Vector2(-44, -106), Vector2(300, -106)])
-	_builder.add_item(&"health", Vector2(100, 150))
-	_builder.add_item(&"health", Vector2(200, 150))
-	_builder.add_item(&"mana", Vector2(150, 80))
+	# Sala de suprimentos: cura total (safe_heal) + recursos para as próximas salas.
+	_builder.add_item(&"key", Vector2(100, 150))
+	_builder.add_item(&"bomb", Vector2(200, 150))
+	_builder.add_item(&"xp", Vector2(150, 80))
 	return _builder.build()
 
 
@@ -64,14 +65,24 @@ func build_empty_room() -> Node2D:
 	_builder.set_room_type("empty")
 	_builder.set_player_start(Vector2(152, 112))
 	_builder.set_exits([Vector2(-44, -106), Vector2(300, -106), Vector2(152, 250)])
+	# Item inicial no chão: ensina a pegar/equipar/dropar (bolso do inventário).
+	var starter := EquipmentItem.new()
+	starter.item_name = "Anel do Foco"
+	starter.slot      = 4   # ACESSÓRIO
+	starter.rarity    = 1
+	starter.modifiers = {"damage": 4}
+	_builder.add_world_item(starter, Vector2(220, 150))
 	return _builder.build()
 
 
 func build_chest_room() -> Node2D:
 	_builder.set_room_name("Sala do Baú")
 	_builder.set_room_type("chest")
-	_builder.set_player_start(Vector2(152, 112))
+	_builder.set_player_start(Vector2(152, 150))
 	_builder.set_exits([Vector2(-44, -106), Vector2(300, -106)])
+	_builder.add_chest(Vector2(152, 90))
+	# Garante uma chave na sala caso o jogador não tenha trazido uma.
+	_builder.add_item(&"key", Vector2(70, 150))
 	return _builder.build()
 
 

@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://bchestscene0001"]
+
+[ext_resource type="Script" path="res://scripts/world/chest.gd" id="1_chest"]
+[ext_resource type="Texture2D" uid="uid://bh6qb37fqp2vc" path="res://icon.svg" id="2_icon"]
+
+[sub_resource type="RectangleShape2D" id="Shape_chest"]
+size = Vector2(22, 18)
+
+[node name="Chest" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_chest")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.18, 0.18)
+modulate = Color(0.74, 0.52, 0.26, 1)
+texture = ExtResource("2_icon")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Shape_chest")
+
+[node name="Prompt" type="Label" parent="."]
+offset_left = -28.0
+offset_top = -28.0
+offset_right = 28.0
+offset_bottom = -14.0
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 1
+text = "[E] chave"

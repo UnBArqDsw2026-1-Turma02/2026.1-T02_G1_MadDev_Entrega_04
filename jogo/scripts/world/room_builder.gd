@@ -3,8 +3,25 @@
 class_name RoomBuilder
 extends RoomBuilderBase
 
-const _ITEM_SCENE: String = "res://scenes/consumables/consumable.tscn"
+const _ITEM_SCENE: String = "res://scenes/world/pickup.tscn"
+const _WORLD_ITEM_SCENE: String = "res://scenes/world/world_item.tscn"
+const _CHEST_SCENE: String = "res://scenes/world/chest.tscn"
 const _NPC_SCENE: String = "res://scenes/world/shop_npc.tscn"
+
+## Mapeia o tipo textual de item (usado pelo Director) para o pickup concreto.
+## Valores de "kind" seguem o enum Pickup.Kind: 0=HEART 1=BOMB 2=KEY 3=GOLD 4=XP.
+const _PICKUP_MAP: Dictionary = {
+	&"health": {"kind": 0, "amount": 1},
+	&"heart":  {"kind": 0, "amount": 1},
+	&"potion": {"kind": 0, "amount": 1},
+	&"bomb":   {"kind": 1, "amount": 1},
+	&"key":    {"kind": 2, "amount": 1},
+	&"gold":   {"kind": 3, "amount": 10},
+	&"coin":   {"kind": 3, "amount": 10},
+	&"xp":     {"kind": 4, "amount": 5},
+	&"mana":   {"kind": 4, "amount": 5},
+	&"status": {"kind": 4, "amount": 5},
+}
 
 # Tileset room.tres: source 0 = piso (sem colisão), source 1 = parede (colisão, layer 2).
 const _FLOOR_SOURCE: int = 0
@@ -19,6 +36,8 @@ var _room_name: String = "Sala"
 var _room_type: String = "combat"
 var _enemy_list: Array[Dictionary] = []
 var _item_list: Array[Dictionary] = []
+var _world_item_list: Array[Dictionary] = []
+var _chest_list: Array[Vector2] = []
 var _npc_list: Array[Dictionary] = []
 var _door_positions: Array[Vector2] = []
 var _tilemap_source: String = "res://art/tilesets/room.tres"
@@ -62,7 +81,23 @@ func set_enemy_count(count: int, enemy_type: StringName = &"basic") -> RoomBuild
 	return self
 
 func add_item(item_type: StringName, position: Vector2) -> RoomBuilderBase:
-	_item_list.append({"type": item_type, "pos": position})
+	var entry: Dictionary = _PICKUP_MAP.get(item_type, {"kind": 0, "amount": 1})
+	_item_list.append({"kind": entry["kind"], "amount": entry["amount"], "pos": position})
+	return self
+
+## Adiciona um pickup com tipo e quantidade explícitos (ouro, xp em lote, etc).
+func add_pickup(kind: int, amount: int, position: Vector2) -> RoomBuilderBase:
+	_item_list.append({"kind": kind, "amount": amount, "pos": position})
+	return self
+
+## Adiciona um item NÃO consumível largado no chão (vai pro bolso ao coletar).
+func add_world_item(item: Resource, position: Vector2) -> RoomBuilderBase:
+	_world_item_list.append({"item": item, "pos": position})
+	return self
+
+## Adiciona um baú (abre com chave via interação ou com bomba).
+func add_chest(position: Vector2) -> RoomBuilderBase:
+	_chest_list.append(position)
 	return self
 
 func add_npc(category: String, item: ItemData, position: Vector2) -> RoomBuilderBase:
@@ -116,12 +151,26 @@ func build() -> Node2D:
 	# o player na sala (evita nascer cercado). As portas já trancam pela lista existir.
 	room.set_meta("enemies", _enemy_list.duplicate())
 
-	# 5. Itens consumíveis
+	# 5. Pickups de recurso (coração / bomba / chave / ouro / xp)
 	for item_data in _item_list:
-		var item := _create_item(item_data["type"])
+		var item := _create_pickup(item_data["kind"], item_data["amount"])
 		if item:
 			item.position = item_data["pos"]
 			room.add_child(item)
+
+	# 5b. Itens NÃO consumíveis largados no chão (pegar para o bolso)
+	for wi_data in _world_item_list:
+		var witem := _create_world_item(wi_data["item"])
+		if witem:
+			witem.position = wi_data["pos"]
+			room.add_child(witem)
+
+	# 5c. Baús
+	for chest_pos in _chest_list:
+		var chest := _create_chest()
+		if chest:
+			chest.position = chest_pos
+			room.add_child(chest)
 
 	# 6. NPCs (loja)
 	for npc_data in _npc_list:
@@ -194,13 +243,30 @@ func _create_heal_trigger() -> Area2D:
 	return area
 
 
-func _create_item(type: StringName) -> Node:
+func _create_pickup(kind: int, amount: int) -> Node:
 	var scene := load(_ITEM_SCENE) as PackedScene
 	if scene == null:
 		return null
 	var item := scene.instantiate()
-	item.set("consumable_name", str(type))
+	item.set("kind", kind)
+	item.set("amount", amount)
 	return item
+
+
+func _create_world_item(item_resource: Resource) -> Node:
+	var scene := load(_WORLD_ITEM_SCENE) as PackedScene
+	if scene == null:
+		return null
+	var node := scene.instantiate()
+	node.set("item", item_resource)
+	return node
+
+
+func _create_chest() -> Node:
+	var scene := load(_CHEST_SCENE) as PackedScene
+	if scene == null:
+		return null
+	return scene.instantiate()
 
 
 func _create_npc(category: String, item: ItemData) -> Node:
