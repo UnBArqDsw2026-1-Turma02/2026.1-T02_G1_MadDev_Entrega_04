@@ -12,6 +12,10 @@ var current_room_index: int = 0
 var run_score: int = 0
 var currency: int = 0
 
+## Recursos consumíveis carregados (usados depois com tecla dedicada).
+var bombs: int = 0
+var keys: int = 0
+
 var player_level: int = 1
 var player_xp: int = 0
 var xp_to_next_level: int = 10
@@ -57,9 +61,14 @@ func reset_run() -> void:
 	run_score = 0
 	currency = 0
 	SignalBus.currency_changed.emit(currency)
+	bombs = 0
+	keys = 0
+	SignalBus.bombs_changed.emit(bombs)
+	SignalBus.keys_changed.emit(keys)
 	player_level = 1
 	player_xp = 0
 	xp_to_next_level = 10
+	SignalBus.xp_changed.emit(player_xp, xp_to_next_level, player_level)
 
 
 func end_run(victory: bool) -> void:
@@ -99,6 +108,38 @@ func add_xp(amount: int) -> void:
 		player_level += 1
 		xp_to_next_level = 10 + player_level * 5
 		SignalBus.level_up_ready.emit(player_level)
+	SignalBus.xp_changed.emit(player_xp, xp_to_next_level, player_level)
+
+
+# ---------------------------------------------------------------------------
+# Recursos consumíveis carregados (bombas / chaves) — "carregar e usar depois"
+# ---------------------------------------------------------------------------
+func add_bombs(amount: int) -> void:
+	bombs = maxi(0, bombs + amount)
+	SignalBus.bombs_changed.emit(bombs)
+
+
+## Consome uma bomba se houver; retorna true se gastou.
+func use_bomb() -> bool:
+	if bombs <= 0:
+		return false
+	bombs -= 1
+	SignalBus.bombs_changed.emit(bombs)
+	return true
+
+
+func add_keys(amount: int) -> void:
+	keys = maxi(0, keys + amount)
+	SignalBus.keys_changed.emit(keys)
+
+
+## Consome uma chave se houver; retorna true se gastou.
+func use_key() -> bool:
+	if keys <= 0:
+		return false
+	keys -= 1
+	SignalBus.keys_changed.emit(keys)
+	return true
 
 
 func load_room(room_type: String, difficulty: int = 1) -> void:

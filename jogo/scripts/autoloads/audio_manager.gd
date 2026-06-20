@@ -51,19 +51,23 @@ func play_sfx(stream: AudioStream) -> void:
 
 
 func play_sfx_by_name(sfx_name: String) -> void:
-	var stream := load("res://art/sounds/" + sfx_name + ".wav") as AudioStream
+	# Áudio (Issues 19-22) ainda não foi produzido; ausência de arquivo é esperada
+	# e silenciosa — não polui o console com erros de load a cada disparo/hit.
+	var path := "res://art/sounds/" + sfx_name + ".wav"
+	if not ResourceLoader.exists(path):
+		return
+	var stream := load(path) as AudioStream
 	if stream:
 		play_sfx(stream)
-	else:
-		push_warning("AudioManager: som não encontrado - ", sfx_name)
 
 
 func play_music_by_name(music_name: String) -> void:
-	var stream := load("res://art/music/" + music_name + ".wav") as AudioStream
+	var path := "res://art/music/" + music_name + ".wav"
+	if not ResourceLoader.exists(path):
+		return
+	var stream := load(path) as AudioStream
 	if stream:
 		play_music(stream)
-	else:
-		push_warning("AudioManager: música não encontrada - ", music_name)
 
 
 # ---------------------------------------------------------------------------

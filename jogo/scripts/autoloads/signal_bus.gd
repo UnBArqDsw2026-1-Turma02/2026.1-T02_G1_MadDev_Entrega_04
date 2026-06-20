@@ -10,6 +10,10 @@ signal player_health_changed(new_health: int, max_health: int)
 signal player_died()
 signal player_leveled_up(new_level: int)
 signal level_up_ready(new_level: int)
+## Game feel — emitido a cada hit recebido (HUD/feedback de dano).
+signal player_damaged()
+## Cargas de dash (corações de dash): atual e máximo.
+signal dash_changed(current: int, maximum: int)
 
 # ---------------------------------------------------------------------------
 # Inimigos
@@ -35,6 +39,11 @@ signal key_used()
 signal bomb_used(origin: Vector2)
 signal equipment_changed(slot: int, item: Resource)
 signal benefit_changed(benefit: Resource)
+## Bolso do inventário mudou — carrega a lista de 6 slots (item ou null).
+signal inventory_changed(pocket: Array)
+## Contadores de recurso da run (consumíveis "carregar e usar depois").
+signal bombs_changed(amount: int)
+signal keys_changed(amount: int)
 
 # ---------------------------------------------------------------------------
 # Jogo / Meta
@@ -44,5 +53,7 @@ signal run_ended(victory: bool)
 signal game_paused(is_paused: bool)
 signal score_changed(new_score: int)
 signal currency_changed(new_amount: int)
+## XP do jogador: progresso atual, limiar do próximo nível e nível corrente.
+signal xp_changed(current_xp: int, xp_to_next: int, level: int)
 signal achievement_unlocked(achievement: Achievement)
 signal profile_selected(profile_name: String)

@@ -9,7 +9,9 @@ signal stats_changed(attribute: String, new_value: float)
 # ---------------------------------------------------------------------------
 # Valores base (estado inicial, usados em reset_to_base)
 # ---------------------------------------------------------------------------
-@export var base_max_health: int    = 100
+## Vida no modelo de "corações": cada ponto = 1 coração. Início com 3.
+## Todo dano inimigo custa exatamente 1 coração (ver player.take_damage).
+@export var base_max_health: int    = 3
 @export var base_damage: int        = 10
 @export var base_move_speed: float  = 200.0
 @export var base_dash_cd_reduction: float = 0.0  # 0.0..1.0
