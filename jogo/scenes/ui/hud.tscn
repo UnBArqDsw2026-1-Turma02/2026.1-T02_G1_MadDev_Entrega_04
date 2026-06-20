@@ -20,8 +20,8 @@ renderer = SubResource("Resource_canvas")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1836705217]
 layout_mode = 1
-offset_right = 200.0
-offset_bottom = 120.0
+offset_right = 400.0
+offset_bottom = 240.0
 
 [node name="HealthRow" type="HBoxContainer" parent="VBoxContainer" unique_id=373254165]
 layout_mode = 2
@@ -31,7 +31,7 @@ layout_mode = 2
 text = "HP: -- / --"
 
 [node name="HealthBar" type="ProgressBar" parent="VBoxContainer/HealthRow" unique_id=605389005]
-custom_minimum_size = Vector2(120, 0)
+custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 value = 100.0
 

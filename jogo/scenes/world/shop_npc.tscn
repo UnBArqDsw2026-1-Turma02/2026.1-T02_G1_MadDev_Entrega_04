@@ -1,20 +1,26 @@
 [gd_scene format=3 uid="uid://dshopnpc0001"]
 
-[ext_resource type="Script" path="res://scripts/world/shop_npc.gd" id="1_shop"]
+[ext_resource type="Script" uid="uid://ddny2jfsxyf1i" path="res://scripts/world/shop_npc.gd" id="1_shop"]
 [ext_resource type="Texture2D" uid="uid://bh6qb37fqp2vc" path="res://icon.svg" id="2_icon"]
 
 [sub_resource type="RectangleShape2D" id="Shape_shop"]
 size = Vector2(16, 16)
 
-[node name="ShopNPC" type="StaticBody2D"]
+[node name="ShopNPC" type="StaticBody2D" unique_id=386861418]
 collision_layer = 2
-collision_mask = 1
 script = ExtResource("1_shop")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=88906391]
 modulate = Color(1, 0.85, 0, 1)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_icon")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=6636313]
 shape = SubResource("Shape_shop")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1089657766]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_font_sizes/normal_font_size = 10
+bbcode_enabled = true
+text = "[wave] NPC"
