@@ -1,7 +1,64 @@
 # Contexto de Implementação — MadDev (jogo de Arquitetura)
 
-Atualizado em 2026-06-19. Ver `tasks.md` para o checklist detalhado por issue
+Atualizado em 2026-06-20. Ver `tasks.md` para o checklist detalhado por issue
 (Backlog/Roadmap em `docs/Documentacao/`).
+
+## Branch e estado do git
+
+Trabalho corrente está na branch **`game`** (não `main`). Convenção de commit:
+prefixo `[SETUP]`/`[FEAT]`/`[FIX]`/`[DOC]`, **sem** `Co-Authored-By` ou
+qualquer referência a Claude/IA nas mensagens — instrução explícita e
+permanente do usuário. `CLAUDE.md` nunca é versionado (está no `.gitignore`).
+
+Últimos commits relevantes (mais recente primeiro):
+```
+9df116f [FIX] Adapta UI para nova resolução base 640x360 (16:9 responsivo)
+37c1565 [FIX] Recompensa de sala não era concedida, sem preview e diálogo da loja preso
+c4fc66a [FEAT] Issue 09 — Completa HUD com moeda, arma equipada e benefício ativo
+```
+
+Há edições **não commitadas e intencionais do próprio usuário** (ajustadas à
+mão no editor Godot, NÃO reverter sem ele pedir):
+- `jogo/scenes/enemies/enemy.tscn`, `enemy_melee.tscn`, `enemy_ranged.tscn`
+- `jogo/scenes/player/player.tscn`
+São ajustes de raio de colisor e escala de `Sprite2D` (ex.: enemy radius
+8.0→25.0, scale 0.125→0.4; player capsule radius 31→19, scale 0.5→0.35) —
+tuning visual feito olhando o jogo rodando, relacionado à nova resolução
+640x360. Continue sem tocar nesses arquivos até o usuário confirmar que
+terminou o ajuste.
+
+Há também arquivos não rastreados sem uso aparente no código (nenhuma cena/
+script referencia): `jogo/art/thumbjogo.jpg(.import)`, `jogo/art/sprites/
+item.png(.import)`. Não foram comitados nem apagados — presumivelmente
+assets que o usuário está preparando para uso futuro.
+
+## Resolução / responsividade 16:9 (mudança desta sessão)
+
+Usuário alterou o canvas de referência de 320x180 para **640x360** (mesma
+proporção 16:9), mantendo a janela final em 1280x720
+(`window/stretch/mode="canvas_items"`). Isso reduz o fator de stretch de 4x
+para 2x — qualquer UI com tamanho de pixel absoluto (fontes, offsets fixos de
+`Control`) renderiza na metade do tamanho visual anterior se não compensada.
+
+Compensação aplicada (commit `9df116f`):
+- `project.godot`: `window/stretch/aspect="keep"` adicionado; nova seção
+  `[gui]` com `theme/default_font_size=32` (dobro do padrão 16) — corrige a
+  maioria dos menus de uma vez, já que eles usam `anchors_preset=15` ou
+  containers com `grow`.
+- `hud.tscn`: offsets do `VBoxContainer` dobrados (200→400, 120→240) e
+  `HealthBar.custom_minimum_size` dobrado (120→240).
+- `door.tscn` / `shop_npc.tscn`: o `RewardLabel` e o `RichTextLabel` de fala
+  do NPC são rótulos no **espaço do mundo** (anexados ao sprite, não à
+  camada de UI) — receberam `theme_override_font_sizes` fixo em 10px para
+  não herdar o novo tamanho global de 32px e ficarem desproporcionais a um
+  tile pequeno.
+
+Deliberadamente **não tocado**: `Camera2D.zoom` (player.tscn, ainda
+`Vector2(0.4, 0.4)`) e colisores/escalas de sprite — o usuário está
+ajustando isso manualmente no editor em paralelo (ver seção acima). Se ao
+testar o mundo parecer desproporcional à nova resolução, os números de
+spawn/posicionamento de sala são gerados em `room_builder.gd`/
+`room_director.gd` (não há como tunar isso no editor, é código).
 
 ## Estado geral
 
