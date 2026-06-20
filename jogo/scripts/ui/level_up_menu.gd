@@ -2,10 +2,11 @@
 ## Pausa o jogo ao abrir e retoma ao confirmar.
 extends Control
 
+## Vida é em corações: +1 vida máx = +1 coração (não +20 pontos).
 const _UPGRADES: Array[Dictionary] = [
-	{"label": "+Dano",       "attribute": "damage",     "delta": 5.0},
-	{"label": "+Vida Máx.",  "attribute": "max_health", "delta": 20.0},
-	{"label": "+Velocidade", "attribute": "move_speed", "delta": 20.0},
+	{"label": "+Dano",        "attribute": "damage",     "delta": 5.0},
+	{"label": "+1 Coração",   "attribute": "max_health", "delta": 1.0},
+	{"label": "+Velocidade",  "attribute": "move_speed", "delta": 20.0},
 ]
 
 @onready var _btn_a: Button = $Center/VBox/BtnA
@@ -38,5 +39,9 @@ func _on_choice(index: int) -> void:
 	var player: Node = get_tree().get_first_node_in_group("player")
 	if player and player.get("stats") != null:
 		player.stats.apply_modifier(upgrade["attribute"], upgrade["delta"])
+		# Ganhar um coração também o enche, e o HUD precisa do sinal para redesenhar.
+		if upgrade["attribute"] == "max_health":
+			player.stats.current_health = player.stats.max_health
+		SignalBus.player_health_changed.emit(player.stats.current_health, player.stats.max_health)
 	get_tree().paused = false
 	hide()

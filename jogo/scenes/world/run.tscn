@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://brun0ctrl0001"]
+[gd_scene load_steps=10 format=3 uid="uid://brun0ctrl0001"]
 
 [ext_resource type="Script" path="res://scripts/world/run.gd" id="1_run"]
 [ext_resource type="PackedScene" uid="uid://c7a3ftgvd0age" path="res://scenes/ui/hud.tscn" id="2_hud"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://c18bbn5qtne5r" path="res://scenes/player/player.tscn" id="6_player"]
 [ext_resource type="Resource" uid="uid://uly6i7c31ll8" path="res://scripts/damage/armor_handler.tres" id="7_chain"]
 [ext_resource type="PackedScene" uid="uid://bshortrangeproj001" path="res://scenes/projectiles/short_range_projectile.tscn" id="8_short_proj"]
+[ext_resource type="PackedScene" uid="uid://binventorymenu001" path="res://scenes/ui/inventory_menu.tscn" id="9_inv"]
+[ext_resource type="PackedScene" uid="uid://blevelupmenu001" path="res://scenes/ui/level_up_menu.tscn" id="10_levelup"]
 
 [node name="Run" type="Node2D"]
 script = ExtResource("1_run")
@@ -29,6 +31,16 @@ projectile_scene = ExtResource("8_short_proj")
 layer = 10
 
 [node name="PauseMenu" parent="PauseLayer" instance=ExtResource("3_pause")]
+
+[node name="InventoryLayer" type="CanvasLayer" parent="."]
+layer = 12
+
+[node name="InventoryMenu" parent="InventoryLayer" instance=ExtResource("9_inv")]
+
+[node name="LevelUpLayer" type="CanvasLayer" parent="."]
+layer = 14
+
+[node name="LevelUpMenu" parent="LevelUpLayer" instance=ExtResource("10_levelup")]
 
 [node name="GameOverLayer" type="CanvasLayer" parent="."]
 layer = 20

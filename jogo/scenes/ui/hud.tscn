@@ -1,13 +1,14 @@
-[gd_scene format=3 uid="uid://c7a3ftgvd0age"]
+[gd_scene load_steps=5 format=3 uid="uid://c7a3ftgvd0age"]
 
 [ext_resource type="Script" uid="uid://cypkoxv85vyj3" path="res://scripts/ui/hud_abstraction.gd" id="1_script"]
 [ext_resource type="Theme" uid="uid://bmaintheme001" path="res://art/themes/main_theme.tres" id="2_theme"]
 [ext_resource type="Script" uid="uid://cad8xkur0gila" path="res://scripts/ui/renderers/canvas_renderer.gd" id="3_canvas"]
+[ext_resource type="PackedScene" uid="uid://binvbar000001" path="res://scenes/ui/inventory_bar.tscn" id="4_invbar"]
 
 [sub_resource type="Resource" id="Resource_canvas"]
 script = ExtResource("3_canvas")
 
-[node name="HUD" type="Control" unique_id=752192122]
+[node name="HUD" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,48 +19,74 @@ theme = ExtResource("2_theme")
 script = ExtResource("1_script")
 renderer = SubResource("Resource_canvas")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1836705217]
+[node name="Stats" type="VBoxContainer" parent="."]
 layout_mode = 1
-offset_right = 400.0
-offset_bottom = 240.0
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 320.0
+offset_bottom = 200.0
+theme_override_constants/separation = 4
 
-[node name="HealthRow" type="HBoxContainer" parent="VBoxContainer" unique_id=373254165]
+[node name="HeartsRow" type="HBoxContainer" parent="Stats"]
 layout_mode = 2
+theme_override_constants/separation = 2
 
-[node name="HealthLabel" type="Label" parent="VBoxContainer/HealthRow" unique_id=1215015992]
+[node name="DashRow" type="HBoxContainer" parent="Stats"]
 layout_mode = 2
-text = "HP: -- / --"
+theme_override_constants/separation = 2
 
-[node name="HealthBar" type="ProgressBar" parent="VBoxContainer/HealthRow" unique_id=605389005]
-custom_minimum_size = Vector2(240, 0)
+[node name="ResourcesRow" type="HBoxContainer" parent="Stats"]
 layout_mode = 2
-value = 100.0
+theme_override_constants/separation = 10
 
-[node name="ScoreLabel" type="Label" parent="VBoxContainer" unique_id=489642067]
+[node name="XPRow" type="HBoxContainer" parent="Stats"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="LevelLabel" type="Label" parent="Stats/XPRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Nv 1"
+
+[node name="XPBar" type="ProgressBar" parent="Stats/XPRow"]
+custom_minimum_size = Vector2(130, 14)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 10.0
+value = 0.0
+show_percentage = false
+
+[node name="Feed" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -120.0
+offset_right = 280.0
+offset_bottom = -8.0
+grow_vertical = 0
+
+[node name="AchievementLabel" type="Label" parent="."]
 visible = false
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 8.0
+offset_left = -150.0
+offset_right = 150.0
+horizontal_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="."]
+visible = false
+layout_mode = 0
 text = "Score: 0"
 
-[node name="TimeLabel" type="Label" parent="VBoxContainer" unique_id=486710822]
+[node name="TimeLabel" type="Label" parent="."]
 visible = false
-layout_mode = 2
+layout_mode = 0
 text = "Tempo: 00:00"
 
-[node name="CurrencyLabel" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-text = "Moeda: 0"
-
-[node name="WeaponLabel" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-text = "Arma: nenhuma"
-
-[node name="BenefitLabel" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-text = "Benefício: nenhum"
-
-[node name="ConsumableRow" type="HBoxContainer" parent="VBoxContainer" unique_id=988393516]
-layout_mode = 2
-
-[node name="AchievementLabel" type="Label" parent="VBoxContainer" unique_id=1849152218]
-visible = false
-layout_mode = 2
+[node name="InventoryBar" parent="." instance=ExtResource("4_invbar")]

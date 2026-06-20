@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://binvbar000001"]
+
+[ext_resource type="Script" path="res://scripts/ui/inventory_bar.gd" id="1_bar"]
+
+[node name="InventoryBar" type="PanelContainer"]
+anchors_preset = 0
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -156.0
+offset_top = -88.0
+offset_right = -6.0
+offset_bottom = 88.0
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("1_bar")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 4
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Title" type="Label" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Inventário"
+horizontal_alignment = 1
+
+[node name="Slots" type="VBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 2
