@@ -1,0 +1,33 @@
+@startuml
+title Caso de Uso - Comportamento dos Inimigos
+
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Inimigo" as Inimigo
+
+rectangle "Sistema de Inimigo" {
+    usecase "Engajar Jogador em Combate" as UC_Engage
+
+    usecase "Perseguir Alvo" as UC_Chase
+    usecase "Atacar Alvo" as UC_Attack
+
+    usecase "Perseguição Direta" as UC_ChaseDirect
+    usecase "Perseguição em Padrão" as UC_ChasePattern
+
+    usecase "Ataque Corpo a Corpo" as UC_Melee
+    usecase "Ataque à Distância" as UC_Ranged
+
+    UC_Engage ..> UC_Chase : <<include>>
+    UC_Engage ..> UC_Attack : <<include>>
+
+    UC_Chase <|-- UC_ChaseDirect
+    UC_Chase <|-- UC_ChasePattern
+
+    UC_Attack <|-- UC_Melee
+    UC_Attack <|-- UC_Ranged
+}
+
+Inimigo -- UC_Engage
+
+@enduml

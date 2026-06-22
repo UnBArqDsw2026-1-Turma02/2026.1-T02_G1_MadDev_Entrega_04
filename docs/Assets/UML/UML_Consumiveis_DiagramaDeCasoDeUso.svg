@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="498px" preserveAspectRatio="none" style="width:628px;height:498px;" version="1.1" viewBox="0 0 628 498" width="628px" zoomAndPan="magnify"><defs><filter height="300%" id="f1byqxdge92hcf" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="300" x="175.5" y="19.2419">Casos de Uso - Uso de consumiveis</text><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="206" x="222.5" y="43.7577">US-34, US-35, US-36 | v1</text><!--MD5=[3c55f8e7b59251bd49064ff4156d06c2]
+cluster Sistema de Consumiveis--><rect fill="#FFFFFF" filter="url(#f1byqxdge92hcf)" height="226" style="stroke: #000000; stroke-width: 1.5;" width="444.5" x="172.5" y="198.5317"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="168" x="310.75" y="215.4976">Sistema de Consumiveis</text><ellipse cx="249.4828" cy="389.5147" fill="#FEFECE" filter="url(#f1byqxdge92hcf)" rx="60.9828" ry="16.4831" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="82" x="208.4828" y="395.5487">Usar bomba</text><ellipse cx="249.3259" cy="321.5147" fill="#FEFECE" filter="url(#f1byqxdge92hcf)" rx="55.3259" ry="16.4831" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="74" x="212.3259" y="327.5487">Usar chave</text><ellipse cx="249.533" cy="253.5147" fill="#FEFECE" filter="url(#f1byqxdge92hcf)" rx="56.033" ry="16.4831" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="75" x="212.033" y="259.5487">Usar pocao</text><ellipse cx="536.5967" cy="314.4254" fill="#FEFECE" filter="url(#f1byqxdge92hcf)" rx="64.5967" ry="29.3937" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="81" x="496.0967" y="310.1069">Validar item</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="89" x="492.0967" y="329.1748">no inventario</text><!--MD5=[eef1899250db69e700d3aa9c948e21c9]
+entity jogador--><ellipse cx="34.5" cy="298.0317" fill="#FEFECE" filter="url(#f1byqxdge92hcf)" rx="16" ry="16" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M34.5,318.0317 C38.5,318.0317 41.5,318.0317 45.5,314.0317 C53.5,314.0317 61.5,322.0317 61.5,330.0317 L61.5,334.0317 C61.5,338.0317 57.5,342.0317 53.5,342.0317 L15.5,342.0317 C11.5,342.0317 7.5,338.0317 7.5,334.0317 L7.5,330.0317 C7.5,322.0317 15.5,314.0317 23.5,314.0317 C27.5,318.0317 30.5,318.0317 34.5,318.0317 " fill="#FEFECE" filter="url(#f1byqxdge92hcf)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="8.5" y="358.4976">Jogador</text><path d="M149,441.0317 L149,486.4437 L350,486.4437 L350,451.0317 L340,441.0317 L149,441.0317 " fill="#FBFB77" filter="url(#f1byqxdge92hcf)" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M340,441.0317 L340,451.0317 L350,451.0317 L340,441.0317 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="180" x="155" y="459.9287">Pre-cond: pocao no inventario</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="60" x="155" y="477.6347">Ref: US-36</text><path d="M150,137.0317 L150,182.4437 L349,182.4437 L349,147.0317 L339,137.0317 L150,137.0317 " fill="#FBFB77" filter="url(#f1byqxdge92hcf)" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M339,137.0317 L339,147.0317 L349,147.0317 L339,137.0317 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="178" x="156" y="155.9287">Pre-cond: chave no inventario</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="60" x="156" y="173.6347">Ref: US-35</text><path d="M146,57.0317 L146,102.4437 L353,102.4437 L353,67.0317 L343,57.0317 L146,57.0317 " fill="#FBFB77" filter="url(#f1byqxdge92hcf)" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M343,57.0317 L343,67.0317 L353,67.0317 L343,57.0317 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="186" x="152" y="75.9287">Pre-cond: bomba no inventario</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="60" x="152" y="93.6347">Ref: US-34</text><!--MD5=[0258ca51653521637c1e457f046501b3]
+link jogador to UC1--><path d="M63.04,350.6317 C71.88,358.3217 82.19,365.7917 93,370.5317 C121.02,382.8317 154.44,387.9917 183.1,389.9117 " fill="none" id="jogador-&gt;UC1" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="188.4,390.2317,179.6565,385.6983,183.409,389.9314,179.176,393.6839,188.4,390.2317" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="21" x="94" y="348.4287">usa</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="20" x="94.5" y="366.1347">1..1</text><!--MD5=[de1db3691636e971c4c3edb5e7df7daa]
+link jogador to UC2--><path d="M63.27,323.2717 C72.7,323.7917 83.31,324.2817 93,324.5317 C124.64,325.3517 159.9,324.8017 188.84,323.9517 " fill="none" id="jogador-&gt;UC2" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="194.16,323.7817,185.0388,320.0664,189.1625,323.9388,185.2901,328.0624,194.16,323.7817" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="21" x="94" y="302.4287">usa</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="20" x="94.5" y="320.1347">1..1</text><!--MD5=[68334c81246264629a9b533441d23d6c]
+link jogador to UC3--><path d="M63.22,300.0417 C72.29,293.9017 82.7,287.7317 93,283.5317 C124.04,270.8717 160.8,263.4617 190.78,259.1817 " fill="none" id="jogador-&gt;UC3" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="195.91,258.4617,186.4468,255.7326,190.9572,259.1468,187.543,263.6572,195.91,258.4617" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="21" x="94" y="254.4287">usa</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="20" x="94.5" y="272.1347">1..1</text><!--MD5=[41a13eddb1eb4ad2a8fa357668cebe40]
+link UC1 to UC4--><path d="M299.67,380.0317 C338.57,372.1417 394.12,360.0517 442,346.5317 C454.54,342.9917 467.86,338.7317 480.4,334.5017 " fill="none" id="UC1-&gt;UC4" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="485.35,332.8217,475.5403,331.9439,480.6181,334.4371,478.125,339.5149,485.35,332.8217" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="57" x="384" y="342.4287">«include»</text><!--MD5=[70fd0aa021e0672eb21bacda73a77dec]
+link UC2 to UC4--><path d="M304.98,320.5517 C343.31,319.8317 395.79,318.7517 442,317.5317 C450.07,317.3217 458.52,317.0717 466.92,316.8217 " fill="none" id="UC2-&gt;UC4" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="472.13,316.6617,463.0088,312.9464,467.1325,316.8188,463.2601,320.9424,472.13,316.6617" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="57" x="384" y="313.4287">«include»</text><!--MD5=[c2c2d51be8a732dddcb94b0c58646b8f]
+link UC3 to UC4--><path d="M295.34,263.1317 C343.1,273.3517 419.06,289.6117 472.75,301.1017 " fill="none" id="UC3-&gt;UC4" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="477.87,302.2017,469.9033,296.4111,472.9802,301.158,468.2333,304.2348,477.87,302.2017" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="57" x="384" y="278.4287">«include»</text><!--MD5=[6876281e45f4beaa0c83121f5fb55c4a]
+link GMN14 to UC3--><path d="M148.76,442.8717 C131.21,434.6417 115.18,423.1317 104.5,407.0317 C79.43,369.2617 79.43,342.8017 104.5,305.0317 C124.15,275.4317 162.52,262.6817 194.85,257.2717 " fill="none" id="GMN14-UC3" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><!--MD5=[bb34a33631fc0c3b437d086ea525a794]
+link GMN17 to UC2--><path d="M177.54,182.0717 C129.36,201.2117 79.04,231.6617 104.5,270.0317 C124.22,299.7517 162.8,312.4717 195.22,317.8517 " fill="none" id="GMN17-UC2" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><!--MD5=[dd2cb44bb79cb54f474d7584837f4967]
+link GMN20 to UC1--><path d="M146.23,102.1917 C129.69,110.4417 114.68,121.6917 104.5,137.0317 C55.11,211.4717 55.11,263.5917 104.5,338.0317 C123.26,366.3017 159.09,379.1917 190.44,385.0117 " fill="none" id="GMN20-UC1" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><!--MD5=[b9b764b876d1782d7058b451ea70aadc]
+@startuml
+
+title Casos de Uso - Uso de consumiveis\nUS-34, US-35, US-36 | v1
+
+left to right direction
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+
+actor "Jogador" as jogador
+
+rectangle "Sistema de Consumiveis" {
+  usecase "Usar bomba" as UC1
+  usecase "Usar chave" as UC2
+  usecase "Usar pocao" as UC3
+  usecase "Validar item\nno inventario" as UC4
+}
+
+jogador - -> UC1 : usa\n1..1
+jogador - -> UC2 : usa\n1..1
+jogador - -> UC3 : usa\n1..1
+
+UC1 ..> UC4 : <<include>>
+UC2 ..> UC4 : <<include>>
+UC3 ..> UC4 : <<include>>
+
+note top of UC3
+  Pre-cond: pocao no inventario
+  Ref: US-36
+end note
+
+note top of UC2
+  Pre-cond: chave no inventario
+  Ref: US-35
+end note
+
+note top of UC1
+  Pre-cond: bomba no inventario
+  Ref: US-34
+end note
+
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 07:22:07 BRT 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 21.0.10+7-Ubuntu-124.04
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

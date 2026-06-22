@@ -1,0 +1,15 @@
+@startuml
+
+title Atividades - Selecionar -> Validar -> Aplicar\nUS-34, US-35, US-36 | v1
+
+start
+:Selecionar item;
+if (Item valido e disponivel?) then (Sim)
+  :Consumir item;
+  :Aplicar efeito;
+else (Nao)
+  :Exibir mensagem de erro;
+endif
+stop
+
+@enduml

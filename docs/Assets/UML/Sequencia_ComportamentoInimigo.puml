@@ -1,0 +1,82 @@
+@startuml
+title Diagrama de Sequência - Comportamento Inimigo
+
+skinparam sequenceMessageAlign center
+
+actor GameLoop
+participant Enemy
+participant "AIController" as AI
+participant "currentPattern: Pattern" as Pattern
+participant Player
+participant RewardSystem
+
+== Loop de Atualização ==
+
+GameLoop -> Enemy : update(deltaTime)
+activate Enemy
+
+Enemy -> AI : update(deltaTime)
+activate AI
+
+AI -> AI : detectPlayer(Player)
+activate AI
+return isDetected
+
+alt isDetected == true
+    AI -> AI : calcularDistanciaAte(Player)
+    activate AI
+    return distancia
+    
+    alt distancia > attackRange
+        AI -> Pattern : chasePlayer(Enemy, Player, deltaTime)
+        activate Pattern
+        Pattern --> AI : movementVector
+        deactivate Pattern
+        
+        AI -> Enemy : aplicarMovimento(movementVector)
+        
+    else distancia <= attackRange
+        AI -> Pattern : attackPlayer(Enemy, Player)
+        activate Pattern
+        Pattern --> AI : attackResult
+        deactivate Pattern
+        
+        opt hp <= phaseTriggerHp
+            AI -> Pattern : changePhase()
+            activate Pattern
+            Pattern --> AI : faseAtualizada
+            deactivate Pattern
+        end
+    end
+else
+    AI -> Enemy : manterEstadoPassivo()
+end
+
+deactivate AI
+deactivate Enemy
+
+== Combate ==
+
+Player -> Enemy : takeDamage(rawDamage)
+activate Enemy
+
+Enemy -> Enemy : calculateResistance(rawDamage)
+activate Enemy
+return danoEfetivo
+
+Enemy -> Enemy : hp -= danoEfetivo
+
+alt hp <= 0
+    Enemy -> Enemy : die()
+    Enemy -> Enemy : dropReward()
+    
+    Enemy -> RewardSystem : spawnReward()
+    activate RewardSystem
+    deactivate RewardSystem
+    
+    destroy Enemy
+end
+
+deactivate Enemy
+
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+title Diagrama de Estados - Fluxo do Equipamento\nUS-37, US-38, US-39 - v1
+
+[*] --> Desequipado
+
+Desequipado --> Equipado : equip(item compatível)
+Equipado --> Desequipado : unequip()
+
+Desequipado --> Bloqueado : slotLocked()
+Equipado --> Bloqueado : slotLocked()
+
+Bloqueado --> Desequipado : slotUnlocked()
+
+Desequipado --> Desequipado : equip(item incompatível)\n/ exibir erro
+Bloqueado --> Bloqueado : equip()\n/ negar ação
+
+state Desequipado
+state Equipado
+state Bloqueado
+
+@enduml

@@ -1,0 +1,40 @@
+@startuml
+title Diagrama de Pacotes - Items / Equipment / Stats\nUS-37, US-38, US-39 - v1
+
+package "Items" {
+  abstract class Item
+  class Weapon
+  class Armor
+  class Accessory
+  enum ItemType
+}
+
+package "Equipment" {
+  class EquipmentManager
+  class EquipmentSlot
+  class Loadout
+}
+
+package "Stats" {
+  class PlayerStats
+  class StatModifier
+}
+
+Weapon --|> Item
+Armor --|> Item
+Accessory --|> Item
+
+Item --> ItemType
+
+EquipmentManager --> Item : equipa/desequipa
+EquipmentManager --> EquipmentSlot : gerencia
+EquipmentManager --> Loadout : atualiza
+
+Item --> StatModifier : fornece bônus
+PlayerStats --> StatModifier : aplica
+EquipmentManager --> PlayerStats : atualiza atributos
+
+Equipment ..> Items : usa
+Equipment ..> Stats : atualiza
+
+@enduml
