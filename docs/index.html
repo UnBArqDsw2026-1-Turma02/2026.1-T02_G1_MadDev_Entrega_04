@@ -11,11 +11,51 @@
 <body>
   <div id="app"></div>
   <script>
+    // Escapa entidades HTML para que diagramas com '<', '>' e '&'
+    // (ex.: class diagrams com '<|--') cheguem intactos ao Mermaid.
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
     window.$docsify = {
       loadSidebar: true,
       name: 'Repositorio Template',
-      repo: 'https://github.com/UnBArqDsw2025-1-Turma01/RepositorioTemplateEntrega4'
-    }
+      repo: 'https://github.com/UnBArqDsw2025-1-Turma01/RepositorioTemplateEntrega4',
+      markdown: {
+        renderer: {
+          // Blocos ```mermaid viram <div class="mermaid"> renderizado pelo Mermaid;
+          // demais blocos de código seguem o realce padrão do docsify.
+          code: function (code, lang) {
+            if (lang === 'mermaid') {
+              return '<div class="mermaid">' + escapeHtml(code) + '</div>';
+            }
+            return this.origin.code.apply(this, arguments);
+          }
+        }
+      },
+      plugins: [
+        function (hook) {
+          // Após cada página renderizar, processa os diagramas ainda não desenhados.
+          hook.doneEach(function () {
+            if (window.mermaid) {
+              window.mermaid.run({ querySelector: '.mermaid' });
+            }
+          });
+        }
+      ]
+    };
+  </script>
+  <!-- Mermaid (v11, ESM) -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: false });
+    window.mermaid = mermaid;
+    // Cobre a corrida: se a primeira página já renderizou antes do Mermaid
+    // carregar, desenha agora os diagramas que ainda estiverem pendentes.
+    try { mermaid.run({ querySelector: '.mermaid' }); } catch (e) {}
   </script>
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
