@@ -1,0 +1,18 @@
+@startuml
+title Caso de Uso - Vida, Cura e Morte do Personagem
+
+left to right direction
+
+actor "Jogador" as Jogador
+
+rectangle "Sistema de Vida" {
+    usecase "Receber dano" as UC_Damage
+    usecase "Curar personagem" as UC_Heal
+    usecase "Morrer" as UC_Death
+
+    Jogador -- UC_Damage
+    Jogador -- UC_Heal
+
+    UC_Damage .> UC_Death : <<include>>[HP <= 0]
+}
+@enduml

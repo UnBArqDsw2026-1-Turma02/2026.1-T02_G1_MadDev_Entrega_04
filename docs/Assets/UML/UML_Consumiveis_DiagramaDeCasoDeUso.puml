@@ -1,0 +1,41 @@
+@startuml
+
+title Casos de Uso - Uso de consumiveis\nUS-34, US-35, US-36 | v1
+
+left to right direction
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+
+actor "Jogador" as jogador
+
+rectangle "Sistema de Consumiveis" {
+  usecase "Usar bomba" as UC1
+  usecase "Usar chave" as UC2
+  usecase "Usar pocao" as UC3
+  usecase "Validar item\nno inventario" as UC4
+}
+
+jogador --> UC1 : usa\n1..1
+jogador --> UC2 : usa\n1..1
+jogador --> UC3 : usa\n1..1
+
+UC1 ..> UC4 : <<include>>
+UC2 ..> UC4 : <<include>>
+UC3 ..> UC4 : <<include>>
+
+note top of UC3
+  Pre-cond: pocao no inventario
+  Ref: US-36
+end note
+
+note top of UC2
+  Pre-cond: chave no inventario
+  Ref: US-35
+end note
+
+note top of UC1
+  Pre-cond: bomba no inventario
+  Ref: US-34
+end note
+
+@enduml

@@ -1,0 +1,247 @@
+' ============================================================
+'  UML Tiny Rogues — US-49 (Pausar) | US-50 (Retomar)
+'  Versao v2 — encoding UTF-8, layout profissional
+' ============================================================
+
+
+' ============================================================
+' 1. CASO DE USO  (US-49 | US-50)
+' ============================================================
+@startuml UML_CasoDeUso_PausarRetomar_v2
+
+title Caso de Uso — Pausar e Retomar Partida\nUS-49 · US-50  |  Tiny Rogues  |  v2
+
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam titleFontSize 14
+skinparam titleFontStyle bold
+
+skinparam nodesep 55
+skinparam ranksep 70
+
+skinparam actor {
+  BorderColor      #1A237E
+  BackgroundColor  #E8EAF6
+  FontColor        #1A237E
+  FontStyle        bold
+}
+
+skinparam usecase {
+  BorderColor      #283593
+  BackgroundColor  #E3F2FD
+  BorderThickness  2
+  FontColor        #0D47A1
+  FontSize         12
+}
+
+skinparam note {
+  BackgroundColor  #FFF9C4
+  BorderColor      #F9A825
+  FontColor        #4E342E
+  FontSize         11
+}
+
+skinparam rectangle {
+  BorderColor      #283593
+  BackgroundColor  #F3F4FD
+  BorderThickness  2
+  FontColor        #1A237E
+  FontStyle        bold
+}
+
+skinparam ArrowColor #283593
+skinparam ArrowThickness 1.5
+
+actor "Jogador" as Jogador
+
+rectangle "Sistema de Pausa\n<size:10><i>pre-condicao: partida em execucao</i></size>" as SistemaPausa {
+
+  usecase "<b>Pausar Partida</b>\n<size:10>US-49  |  fluxo principal</size>"    as UC_Pausar
+  usecase "<b>Retomar Partida</b>\n<size:10>US-50  |  fluxo alternativo</size>" as UC_Retomar
+
+}
+
+Jogador --> UC_Pausar  : pressiona Pause
+Jogador --> UC_Retomar : pressiona Resume
+
+note right of UC_Pausar
+  <b>US-49 — Pausar Partida</b>
+  ──────────────────────────
+  1. Jogador pressiona tecla [Pause]
+  2. Sistema congela o GameLoop
+  3. PauseMenuUI e exibido
+  ──────────────────────────
+  <i>Pos-condicao: estado = Paused</i>
+end note
+
+note right of UC_Retomar
+  <b>US-50 — Retomar Partida</b>
+  ──────────────────────────
+  1. Jogador escolhe "Continuar"
+  2. PauseMenuUI e ocultado
+  3. GameLoop e retomado
+  ──────────────────────────
+  <i>Pos-condicao: estado = Running</i>
+end note
+
+@enduml
+
+
+' ============================================================
+' 2. COMPONENTES  (GameLoop + PauseController)
+' ============================================================
+@startuml UML_Componentes_PausarRetomar_v2
+
+title Diagrama de Componentes — GameLoop + PauseController\nTiny Rogues  |  v2
+
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam titleFontSize 14
+skinparam titleFontStyle bold
+
+skinparam nodesep 60
+skinparam ranksep 80
+
+skinparam component {
+  BorderColor      #1B5E20
+  BackgroundColor  #E8F5E9
+  BorderThickness  2
+  FontColor        #1B5E20
+  FontSize         12
+}
+
+skinparam interface {
+  BorderColor      #33691E
+  BackgroundColor  #F9FBE7
+  FontColor        #33691E
+  FontSize         11
+}
+
+skinparam note {
+  BackgroundColor  #FFF9C4
+  BorderColor      #F9A825
+  FontColor        #4E342E
+  FontSize         11
+}
+
+skinparam ArrowColor     #2E7D32
+skinparam ArrowThickness 1.8
+
+package "Camada de Entrada" #FAFAFA {
+  component [InputHandler] as InputHandler
+}
+
+package "Nucleo de Controle" #F1F8E9 {
+  component [PauseController] as PauseController
+}
+
+package "Camada de Execucao" #E3F2FD {
+  component [GameLoop] as GameLoop
+}
+
+package "Camada de Visualizacao" #FCE4EC {
+  component [PauseMenuUI] as PauseMenuUI
+}
+
+interface "IPauseEvent"  as IPauseEvent
+interface "ILoopControl" as ILoopControl
+interface "IMenuDisplay" as IMenuDisplay
+
+InputHandler    ..>  IPauseEvent   : <<dispara>>
+IPauseEvent     -->  PauseController : <<requerida>>
+
+PauseController ..>  ILoopControl  : <<controla estado>>
+ILoopControl    -->  GameLoop       : <<provida>>
+
+PauseController ..>  IMenuDisplay  : <<mostra / oculta>>
+IMenuDisplay    -->  PauseMenuUI    : <<provida>>
+
+note bottom of PauseController
+  <b>PauseController</b>
+  ─────────────────────────
+  Arbitra transicoes de estado:
+    Running <-> Paused
+  Recebe evento de IPauseEvent
+  Notifica GameLoop e PauseMenuUI
+end note
+
+@enduml
+
+
+' ============================================================
+' 3. ESTADOS  (Running / Paused / GameOver)
+' ============================================================
+@startuml UML_Estados_PausarRetomar_v2
+
+title Diagrama de Estados — Maquina de Estados da Partida\nTiny Rogues  |  v2
+
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam titleFontSize 14
+skinparam titleFontStyle bold
+
+skinparam nodesep 60
+skinparam ranksep 80
+
+skinparam state {
+  BackgroundColor #FFF8E1
+  BorderColor     #F57F17
+  BorderThickness 2
+  FontColor       #4E342E
+  FontSize        12
+}
+
+skinparam note {
+  BackgroundColor #E8EAF6
+  BorderColor     #3949AB
+  FontColor       #1A237E
+  FontSize        11
+}
+
+skinparam ArrowColor     #5D4037
+skinparam ArrowThickness 1.8
+skinparam ArrowFontSize  11
+skinparam ArrowFontColor #4E342E
+
+[*] --> Running : <i>partida iniciada</i>
+
+state Running {
+  [*] --> Ativo
+  Ativo : GameLoop ativo\nFisica, IA e render em execucao
+}
+
+state Paused {
+  [*] --> Congelado
+  Congelado : GameLoop suspenso\nPauseMenuUI visivel
+}
+
+state GameOver {
+  [*] --> Encerrado
+  Encerrado : Partida finalizada\nTela de resultado exibida
+}
+
+Running  --> Paused   : <b>pressPause</b>  [US-49]
+Paused   --> Running  : <b>resume</b>      [US-50]
+Running  --> GameOver : <b>playerDied</b>
+
+GameOver --> [*] : <i>fluxo encerrado</i>
+
+note right of Running
+  <b>Transicoes validas:</b>
+  • pressPause -> Paused
+  • playerDied -> GameOver
+end note
+
+note right of Paused
+  <b>Transicoes validas:</b>
+  • resume -> Running
+  Nao existe Paused -> GameOver
+end note
+
+note right of GameOver
+  <b>Estado terminal.</b>
+  Reinicio exige nova partida
+  (fora do escopo deste diagrama).
+end note
+
+@enduml

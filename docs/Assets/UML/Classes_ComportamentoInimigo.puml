@@ -1,0 +1,73 @@
+@startuml
+title DiagramaDeClasse_ComportamentoInimigos
+
+skinparam classAttributeIconSize 0
+skinparam nodesep 40
+skinparam ranksep 60
+
+' Enumeração para classificar o inimigo
+enum EnemyType {
+    MELEE
+    RANGED
+    BOSS
+}
+
+class Enemy {
+    - type : EnemyType
+    - hp : Integer
+    - atk : Integer
+    - speed : Real
+    - armor : Integer
+    - position : Vector2
+    + takeDamage(rawDamage : Integer)
+    + calculateResistance(rawDamage : Integer) : Integer
+    + dropReward()
+    + die()
+}
+
+class AIController {
+    - detectionRange : Real
+    - attackRange : Real
+    - currentTarget : Player
+    + update(deltaTime : Real)
+    + detectPlayer(target : Player) : Boolean
+    + changePattern(newPattern : Pattern)
+}
+
+abstract class Pattern {
+    + chasePlayer(context : Enemy, target : Player, deltaTime : Real) : Vector2
+    + attackPlayer(context : Enemy, target : Player) : Boolean
+}
+
+' --- Especializações baseadas no Tipo de Inimigo ---
+
+class MeleePattern {
+    + chasePlayer(context : Enemy, target : Player, deltaTime : Real) : Vector2
+    + attackPlayer(context : Enemy, target : Player) : Boolean
+}
+
+class RangedPattern {
+    - projectileSpeed : Real
+    + chasePlayer(context : Enemy, target : Player, deltaTime : Real) : Vector2
+    + attackPlayer(context : Enemy, target : Player) : Boolean
+}
+
+class BossPattern {
+    - phaseTriggerHp : Integer
+    + chasePlayer(context : Enemy, target : Player, deltaTime : Real) : Vector2
+    + attackPlayer(context : Enemy, target : Player) : Boolean
+    + changePhase()
+}
+
+' --- Relationships ---
+
+Enemy "1" --> "1" EnemyType : defined by >
+Enemy "1" *--> "1" AIController : contains >
+
+AIController "1" o--> "1" Pattern : uses >
+
+Pattern <|-- MeleePattern
+Pattern <|-- RangedPattern
+Pattern <|-- BossPattern
+
+@enduml

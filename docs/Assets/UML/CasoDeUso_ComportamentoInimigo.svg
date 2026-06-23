@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="379px" preserveAspectRatio="none" style="width:886px;height:379px;" version="1.1" viewBox="0 0 886 379" width="886px" zoomAndPan="magnify"><defs><filter height="300%" id="ftlicqijh0kfl" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="378" x="265.5" y="19.2419">Caso de Uso - Comportamento dos Inimigos</text><!--MD5=[c1866b5a29f9cee895f1c002de24b8f9]
+cluster Sistema de Inimigo--><rect fill="#FFFFFF" filter="url(#ftlicqijh0kfl)" height="320" style="stroke: #000000; stroke-width: 1.5;" width="770" x="105" y="48.5158"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="134" x="423" y="65.4818">Sistema de Inimigo</text><ellipse cx="233.4288" cy="218.4016" fill="#FEFECE" filter="url(#ftlicqijh0kfl)" rx="112.4288" ry="24.8858" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="197" x="134.9288" y="224.4356">Engajar Jogador em Combate</text><ellipse cx="536.0048" cy="257.6168" fill="#FEFECE" filter="url(#ftlicqijh0kfl)" rx="71.0048" ry="16.601" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="97" x="487.5048" y="263.6508">Perseguir Alvo</text><ellipse cx="536.033" cy="180.4989" fill="#FEFECE" filter="url(#ftlicqijh0kfl)" rx="56.033" ry="16.4831" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="75" x="498.533" y="186.5329">Atacar Alvo</text><ellipse cx="763.4019" cy="333.3962" fill="#FEFECE" filter="url(#ftlicqijh0kfl)" rx="82.4019" ry="18.8804" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="127" x="699.9019" y="339.4302">Perseguição Direta</text><ellipse cx="763.2681" cy="257.4695" fill="#FEFECE" filter="url(#ftlicqijh0kfl)" rx="95.2681" ry="21.4536" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="158" x="684.2681" y="263.5034">Perseguição em Padrão</text><ellipse cx="763.525" cy="180.6209" fill="#FEFECE" filter="url(#ftlicqijh0kfl)" rx="91.025" ry="20.605" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="148" x="689.525" y="186.6548">Ataque Corpo a Corpo</text><ellipse cx="763.5026" cy="105.3164" fill="#FEFECE" filter="url(#ftlicqijh0kfl)" rx="82.0026" ry="18.8005" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="126" x="700.5026" y="111.3503">Ataque à Distância</text><!--MD5=[6775d83824b7c94b2a683d34220fe869]
+entity Inimigo--><ellipse cx="32" cy="186.0158" fill="#FEFECE" filter="url(#ftlicqijh0kfl)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M32,194.0158 L32,221.0158 M19,202.0158 L45,202.0158 M32,221.0158 L19,236.0158 M32,221.0158 L45,236.0158 " fill="none" filter="url(#ftlicqijh0kfl)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="52" x="6" y="256.4818">Inimigo</text><!--MD5=[cd3c96daeb5bdf15f05c3ae356197fd2]
+link UC_Engage to UC_Chase--><path d="M331.23,231.0658 C375.9,236.8658 427.82,243.6058 468.07,248.8258 " fill="none" id="UC_Engage-&gt;UC_Chase" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="473.42,249.5258,465.0092,244.4016,468.4615,248.8828,463.9803,252.3352,473.42,249.5258" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="57" x="377" y="234.4129">«include»</text><!--MD5=[cd91a2fe1d992c49e3e1d91944573c13]
+link UC_Engage to UC_Attack--><path d="M331.65,206.2258 C380.32,200.0758 437.53,192.8458 478.85,187.6158 " fill="none" id="UC_Engage-&gt;UC_Attack" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="484.06,186.9558,474.6293,184.1164,479.0995,187.583,475.6328,192.0532,484.06,186.9558" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="57" x="377" y="190.4129">«include»</text><!--MD5=[31b14f1d79b2deabac523251a22944db]
+reverse link UC_Chase to UC_ChaseDirect--><path d="M596.14,277.4458 C633.65,290.0858 681.47,306.2058 716.21,317.9158 " fill="none" id="UC_Chase&lt;-UC_ChaseDirect" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="593.77,284.0358,577.06,271.0158,598.24,270.7658,593.77,284.0358" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[f5aa1d3719bb2cea3dca6ca2d6615503]
+reverse link UC_Chase to UC_ChasePattern--><path d="M627.56,257.5158 C640.86,257.5158 654.6,257.5158 667.98,257.5158 " fill="none" id="UC_Chase&lt;-UC_ChasePattern" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="627.11,264.5158,607.11,257.5158,627.11,250.5158,627.11,264.5158" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[36fa16983207d87c399be0e6d0deefd7]
+reverse link UC_Attack to UC_Melee--><path d="M612.28,180.5158 C631.53,180.5158 652.42,180.5158 672.33,180.5158 " fill="none" id="UC_Attack&lt;-UC_Melee" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="612.16,187.5158,592.16,180.5158,612.16,173.5158,612.16,187.5158" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[cc63005c576b2146e37718a72b730ab4]
+reverse link UC_Attack to UC_Ranged--><path d="M592.82,161.9458 C630.58,149.3958 679.88,132.9958 715.6,121.1158 " fill="none" id="UC_Attack&lt;-UC_Ranged" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="594.92,168.6258,573.73,168.2958,590.5,155.3458,594.92,168.6258" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[8cbd04550eaa9d7a4cc1e8525337abf7]
+link Inimigo to UC_Engage--><path d="M58.27,218.5158 C74.62,218.5158 97.19,218.5158 120.66,218.5158 " fill="none" id="Inimigo-UC_Engage" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[d09a2572eccf61b1aff3ecfa4ac79314]
+@startuml
+title Caso de Uso - Comportamento dos Inimigos
+
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Inimigo" as Inimigo
+
+rectangle "Sistema de Inimigo" {
+    usecase "Engajar Jogador em Combate" as UC_Engage
+
+    usecase "Perseguir Alvo" as UC_Chase
+    usecase "Atacar Alvo" as UC_Attack
+
+    usecase "Perseguição Direta" as UC_ChaseDirect
+    usecase "Perseguição em Padrão" as UC_ChasePattern
+
+    usecase "Ataque Corpo a Corpo" as UC_Melee
+    usecase "Ataque à Distância" as UC_Ranged
+
+    UC_Engage ..> UC_Chase : <<include>>
+    UC_Engage ..> UC_Attack : <<include>>
+
+    UC_Chase <|- - UC_ChaseDirect
+    UC_Chase <|- - UC_ChasePattern
+
+    UC_Attack <|- - UC_Melee
+    UC_Attack <|- - UC_Ranged
+}
+
+Inimigo - - UC_Engage
+
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 07:22:07 BRT 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 21.0.10+7-Ubuntu-124.04
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

@@ -1,0 +1,48 @@
+@startuml
+!pragma layout smetana
+
+title Componentes - InventoryService + ItemEffectEngine\nUS-34, US-35, US-36 | v1
+
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam padding 10
+skinparam roundCorner 8
+
+component "ItemValidator" as C_IV {
+	[ItemValidator] as IV_IMPL
+	interface "Validation" as IF_VALID
+	IV_IMPL -down- IF_VALID
+}
+
+component "ItemEffectEngine" as C_IE {
+	[ItemEffectEngine] as IE_IMPL
+	interface "EffectApplication" as IF_EFFECT_APP
+	IE_IMPL -down- IF_EFFECT_APP
+}
+
+component "InventoryService" as C_IS {
+	[InventoryService] as IS_IMPL
+	interface "ItemValidation" as IF_ITEM_VALID
+	interface "ItemEffect" as IF_ITEM_EFFECT
+	interface "ItemSelection" as IF_ITEM_SELECTION
+	IS_IMPL -left- IF_ITEM_VALID
+	IS_IMPL -right- IF_ITEM_EFFECT
+	IS_IMPL -down- IF_ITEM_SELECTION
+}
+
+component "InventoryUI" as C_UI {
+	[InventoryUI] as UI_IMPL
+	interface "ItemUsage" as IF_ITEM_USAGE
+	IF_ITEM_USAGE -right- UI_IMPL
+}
+
+IF_ITEM_VALID -up-> IF_VALID : validate(item)
+IF_ITEM_EFFECT -up-> IF_EFFECT_APP : applyEffect(item)
+IF_ITEM_SELECTION -down-> IF_ITEM_USAGE : usarItem()
+
+' Layout hints to keep topology similar to the reference image.
+C_IV -[hidden]right- C_IE
+C_IV -[hidden]down- C_IS
+C_IS -[hidden]down- C_UI
+
+@enduml

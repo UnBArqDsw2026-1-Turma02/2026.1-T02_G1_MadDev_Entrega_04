@@ -1,0 +1,30 @@
+@startuml
+title Diagrama de Caso de Uso - Equipar Itens\nUS-37, US-38, US-39 - v1
+left to right direction
+
+actor Jogador
+
+rectangle "Sistema de Equipamentos" {
+  usecase "Equipar arma" as UC1
+  usecase "Equipar armadura" as UC2
+  usecase "Equipar acessório" as UC3
+  usecase "Validar compatibilidade\ndo item com o slot" as UC4
+  usecase "Atualizar atributos\ndo jogador" as UC5
+  usecase "Exibir mensagem de\nitem incompatível" as UC6
+}
+
+Jogador --> UC1
+Jogador --> UC2
+Jogador --> UC3
+
+UC1 .> UC4 : <<include>>
+UC2 .> UC4 : <<include>>
+UC3 .> UC4 : <<include>>
+
+UC1 .> UC5 : <<include>>
+UC2 .> UC5 : <<include>>
+UC3 .> UC5 : <<include>>
+
+UC6 .> UC4 : <<extend>>
+
+@enduml

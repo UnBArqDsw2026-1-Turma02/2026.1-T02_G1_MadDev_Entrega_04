@@ -1,0 +1,23 @@
+@startuml
+title Diagrama de Atividades - Fluxo Dano/Cura/Morte
+
+start
+:receberEvento;
+
+if (Tipo de evento?) then (Dano)
+  :Aplicar dano;
+  if (HP <= 0?) then (Sim)
+    :Morrer;
+    stop
+  else (Não)
+    :Continuar jogo;
+  endif
+
+else (Cura)
+  :Aplicar cura;
+  :Continuar jogo;
+
+endif
+stop
+
+@enduml
