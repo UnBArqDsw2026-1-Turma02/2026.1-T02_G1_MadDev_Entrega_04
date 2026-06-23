@@ -24,7 +24,7 @@ Cada entrega mantém um registro detalhado das contribuições, com tabela de me
 | **01** | Base | [1.4. Participações (Base)](/Base/1.4.ParticipacoesBase.md) |
 | **02** | Modelagem UML | [2.4. Participações (Modelagem)](/Modelagem/2.4.ParticipacoesModelagem.md) |
 | **03** | Padrões de Projeto GoF | [3.4. Participações (Padrões)](/PadroesDeProjeto/3.4.ParticipacoesPadroes.md) |
-| **04** | Arquitetura de Software | [4.3. Participações (Arquitetura & Reutilização)](/ArquiteturaReutilizacao/4.3.ParticipacoesArqReutilizacao.md) |
+| **04** | Arquitetura de Software | [4.2. Participações (Arquitetura & Reutilização)](/ArquiteturaReutilizacao/4.2.ParticipacoesArqReutilizacao.md) |
 
 ## Como as contribuições são registradas
 
