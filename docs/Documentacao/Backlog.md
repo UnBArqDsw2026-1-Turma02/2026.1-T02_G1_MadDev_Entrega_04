@@ -44,6 +44,12 @@ Uma **História de Usuário** (User Story) é uma descrição pequena e focada d
 
 ---
 
+## 🔄 Atualização — Entrega Final (jun/2026)
+
+> Complemento (nada abaixo foi removido). Os requisitos e Histórias de Usuário deste backlog estão, na sua **quase totalidade, implementados** na branch `game` (Godot 4.6) — Issues 01–18 do `tasks.md` concluídas e validadas em `godot --headless`. Pendentes apenas os requisitos de **arte/áudio** (RF-01..RF-04 · US-01..US-17, Issues 19–22). O mapeamento US → código está no [Roadmap](/Documentacao/Roadmap.md).
+>
+> **Observação (US-07 / US-53 — dash):** a implementação usa **modelo de cargas** (2 cargas com recarga por tempo), em vez de um cooldown fixo único — a "redução de cooldown de dash" continua sendo o atributo que acelera a recarga.
+
 ## Tabelas de Requisitos, Temas, Épicos e Histórias de Usuário
 
 ### Tabela de Requisitos

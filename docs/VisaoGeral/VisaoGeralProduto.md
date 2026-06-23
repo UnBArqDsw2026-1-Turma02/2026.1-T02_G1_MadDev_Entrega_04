@@ -60,6 +60,10 @@ Esta wiki consolida as quatro entregas do projeto:
 - **[Padrões de Projeto GoF](/PadroesDeProjeto/3.PadroesDeProjeto.md)** — Entrega 03: padrões criacionais, estruturais e comportamentais aplicados no código.
 - **[Arquitetura de Software](/ArquiteturaReutilizacao/4.ArquiteturaReutilizacao.md)** — Entrega 04: Documento de Arquitetura de Software (DAS).
 
+## 🔄 Atualização — Entrega Final (jun/2026)
+
+> Complemento ao estado do produto. **O jogo está jogável de ponta a ponta** (Godot 4.6, branch `game`): menu → seleção de personagem → 12 salas em sequência → combate, itens, economia e loja → boss → morte/vitória → reset. Toda a lógica (Issues 01–18) está implementada e validada em `godot --headless`. **Resta a produção de arte e áudio** (sprites, texturas, trilha e SFX). Detalhes em [Roadmap](/Documentacao/Roadmap.md) e [GDD](/GDD/GameDesignDocument.md).
+
 ## Histórico de Versionamento
 
 | Nome | Alteração | Versão | Data |
