@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://bspawnind00001"]
+[gd_scene format=3 uid="uid://cgylyro3oem53"]
 
 [ext_resource type="Script" path="res://scripts/world/spawn_indicator.gd" id="1_ind"]
 [ext_resource type="Texture2D" uid="uid://bh6qb37fqp2vc" path="res://icon.svg" id="2_icon"]
