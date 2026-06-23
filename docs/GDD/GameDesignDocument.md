@@ -200,6 +200,24 @@ Estética **pixel art retrô 16-bit** (referência SNES). Personagens em propor�
 
 > Detalhamento completo em [Backlog](/Documentacao/Backlog.md). Estado de implementação em [Roadmap](/Documentacao/Roadmap.md).
 
+## 🔄 Atualização — Entrega Final (jun/2026)
+
+> Esta seção **complementa** o GDD (nada acima foi removido) e distingue o que é **direção de arte planejada** do que já está **implementado** na branch `game` (Godot 4.6). Onde houver divergência, **prevalece esta atualização**.
+
+| # | Item | No GDD (conceito / arte planejada) | Implementado na Entrega Final |
+|---|------|------------------------------------|-------------------------------|
+| C1 | **Dash** | "cooldown fixo reduzível" | **Modelo de cargas** — 2 cargas, recarga ~1.6 s/carga; concede *i-frames* |
+| C2 | **Boss** | 3 fases (binário / senoidal / *kernel panic*) — direção de arte | **2 fases** implementadas (`enemy_boss.gd`): gatilho a 50% de HP, multiplicadores ×1.6 velocidade / ×1.5 dano. As 3 fases narrativas seguem como meta de arte |
+| C3 | **Armas** | catálogo de arte (Lápis, Caneta, Régua, Baralho, Bola, Guarda-Chuva) | **2 implementadas**: *Caderno Arremessável* (longo alcance) e *Régua Bumerangue* (curto alcance, vai e volta). Demais seguem planejadas |
+| C4 | **Consumíveis** | catálogo de arte (7): Bomba, Chave, Poção, Café, Cola, Gummy, Cigarro | **5 implementados**: Bomba, Chave, Poção, **Status** (+1 atributo/+1 XP) e **Benefício** (slot único). Os nomes temáticos (Café/Cola/Gummy/Cigarro) seguem como variações de arte do consumível de benefício |
+| C5 | **Atributos base** | genéricos | Reais: **3 corações**, dano **10**, velocidade **200**; level-up oferece **+Dano (+5) / +1 Coração / +Velocidade (+20)** |
+
+**Sequência real da run (12 salas):** `empty, combat, combat, rest, combat, chest, combat, shop, rest, combat, combat, boss` (substitui o esquema "1 vazia / 2–10 / 11 pré-boss / 12 boss").
+
+**Perfis de personagem — multiplicadores reais:** Calouro (Vida ×1.0, Vel ×1.1, Dano ×0.9) · Veterano (×1.2 / ×1.0 / ×1.2) · Jubilado (×1.5 / ×0.85 / ×1.0) · Cara da Atlética (×1.1 / ×1.25 / ×1.1).
+
+> **Pendente:** todo o **catálogo de arte** (sprites/spritesheets) e o **áudio** ainda são produção de mídia — a lógica já está pronta para recebê-los.
+
 ## 16. Referências
 
 - [*Tiny Rogues*](https://store.steampowered.com/app/2088570/Tiny_Rogues/) — referência de gênero e jogabilidade.
@@ -211,3 +229,4 @@ Estética **pixel art retrô 16-bit** (referência SNES). Personagens em propor�
 | Nome | Alteração | Versão | Data |
 |------|-----------|--------|------|
 | Equipe MadDev | Criação do GDD consolidando mecânicas e direção de arte (catálogo de spritesheets) | v1.0 | 22/06/2026 |
+| [Felipe Veríssimo](https://github.com/verissimoo) | Seção "🔄 Atualização — Entrega Final": distinção entre arte planejada e implementado (dash por cargas, boss 2 fases, 2 armas, 5 consumíveis, atributos/sequência reais) | v1.1 | 22/06/2026 |

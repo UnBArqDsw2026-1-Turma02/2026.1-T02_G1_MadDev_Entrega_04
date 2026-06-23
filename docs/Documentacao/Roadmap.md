@@ -17,6 +17,32 @@ A análise foi feita por varredura do código em `jogo/scripts/`, `jogo/scenes/`
 > existência de arquivos). A distinção importante é entre *"a mecânica existe em algum script"* e
 > *"a mecânica está integrada e funciona no jogo que efetivamente roda"*. Veja a seção **1.1** — há um
 > descompasso grande entre o código escrito e o que está ligado ao loop jogável.
+
+## 🔄 Atualização — Entrega Final (jun/2026)
+
+> Esta seção **complementa** o roadmap (nada abaixo foi removido). A análise da §1.1 descrevia o estado **no início** desta fase — **a maior parte daquele descompasso já foi resolvida**. Onde houver divergência, **prevalece esta atualização**.
+
+**O loop jogável está completo e validado** em `godot --headless` (Godot 4.6): menu → seleção de personagem → 12 salas em sequência → combate → morte/vitória → tela de fim → reset → menu. Os pontos críticos da §1.1 foram resolvidos:
+
+- ✅ **Geração de salas ligada ao jogo** — `run.gd` carrega as 12 salas da sequência sob demanda via `GameManager`; `test_room.tscn` deixou de ser o destino do Play.
+- ✅ **Morte com efeito** — dano letal passa por `GameFacade.kill_player()` → `end_run(false)` → tela de game over; reset total (RNF-07).
+- ✅ **Transição entre salas** — porta destrancada (`Area2D`) avança para a próxima sala; o player persistente é reposicionado no `player_start`.
+- ✅ **Trava de porta por combate** e **Chain of Responsibility** de dano ligadas ao jogo real.
+
+**Cobertura por onda (Issues do `tasks.md` da branch `game`):**
+
+| Onda | Status |
+|------|--------|
+| 0 — Integração do loop | ✅ concluída (Issue 01) |
+| 1 — Fundação de progressão (PlayerStats, XP/level-up, dash, tabelas) | ✅ concluída (Issues 02–04) |
+| 2 — Itens (consumíveis, equipáveis, raridade, inventário/HUD) | ✅ concluída (Issues 05–09) |
+| 3 — Estrutura da run (12 salas, salas seguras, baús, portas) | ✅ concluída (Issues 10–12) |
+| 4 — Boss, economia e loja | ✅ concluída (Issues 13–16) |
+| 5 — UI e fechamento (seleção de personagem, fim de jogo) | ✅ concluída (Issues 17–18) |
+| 6 — **Assets** (sprites, música, SFX) | ❌ pendente (Issues 19–22 — produção de arte/áudio) |
+| 7 — Limpeza arquitetural | 🟡 parcial (Issue 23) |
+
+**O que realmente falta para a Entrega Final:** os **assets** (Issues 19–22) e **playtests manuais** de teclado/mouse. A tabela de rastreabilidade da §2 abaixo reflete o estado *inicial*; a maioria dos ❌/🟡 já é **✅** hoje (level-up, dash, atributos via `PlayerStats`, consumíveis, equipáveis, raridade, geração de 12 salas, baús, loja, boss, economia, menu de fim e seleção de personagem).
  
 ---
  
@@ -375,3 +401,4 @@ via `load().instantiate()` ad-hoc; spawners (`basic_enemy_spawner.gd`, `ranged_e
 | --- | --- | --- | --- |
 |[Mateus Vieira](https://github.com/matix0) e  [Vinícius Rufino](https://github.com/RufinoVfR)| Criação do roadmap a partir da varredura do código vs. backlog | v1.0 | 01/06/2026 |
 | [Vinícius Rufino](https://github.com/RufinoVfR) | Expansão dos DoDs de frase única para listas de verificação estruturadas | v1.1 | 08/06/2026 |
+| [Felipe Veríssimo](https://github.com/verissimoo) | Seção "🔄 Atualização — Entrega Final": loop jogável completo e cobertura por onda (Issues 01–18 concluídas; restam assets 19–22) | v1.2 | 22/06/2026 |
