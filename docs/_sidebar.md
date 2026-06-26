@@ -72,6 +72,7 @@
   - [4. Arquitetura & Reutilização](/ArquiteturaReutilizacao/4.ArquiteturaReutilizacao.md)
   - [4.1. DAS](/ArquiteturaReutilizacao/4.1.DAS.md)
   - [4.2. Participações (Arquitetura)](/ArquiteturaReutilizacao/4.2.ParticipacoesArqReutilizacao.md)
+  - [4.3. Apresentação](/ArquiteturaReutilizacao/4.3.Apresentacao.md)
 
 - **Reuniões**
   - [Atas de Reunião](/Reunioes/Reunioes.md)
